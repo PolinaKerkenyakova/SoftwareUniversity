@@ -1,31 +1,22 @@
 function addOrRemove(commands) {
 
-    let numberArray = [];
-    let isEmpty = false;
-
+    let numbersArr = [];
+    
     for (let i = 0; i < commands.length; i++) {
         if (commands[i] === 'add') {
-            numberArray.push(i + 1);
-        } else if (commands[i] === 'remove'){
-            if (numberArray.length < 1) {
-                isEmpty = true;
-                break;
-            } else {
-                numberArray.pop();
-            }
+            numbersArr.push(i + 1);
+        } else if (commands[i] === 'remove') {
+            numbersArr.pop();
         }
     }
 
-    if (isEmpty) {
-        console.log('Empty');
+    if (numbersArr.length === 0) {
+        console.log('Empty')
     } else {
-        console.log(numberArray.join(' '));
+        console.log(numbersArr.join(' '));
     }
 }
 
-
 addOrRemove(['add', 'add', 'add', 'add']);
-addOrRemove(['add', 'add', 'remove', 'add', 'add']
-);
-addOrRemove(['remove', 'remove', 'remove']
-);
+addOrRemove(['add', 'add', 'remove', 'add', 'add']);
+addOrRemove(['remove', 'remove', 'remove']);
