@@ -1,84 +1,61 @@
-// namespace _02.LadyBugs
-// {
-//     using System;
-//     using System.Linq;
-//     public class Program
-//     {
-//         public static void Main()
-//         {
-//             int fieldSize = int.Parse(Console.ReadLine());
+function ladyBug(inputArr) {
 
-//             int[] field = new int[fieldSize];
+    let fieldSize = inputArr.shift();
+    let bugsIndexes = inputArr.shift().split(' ').map(Number);
 
-//             int[] bugsIndices = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    let field = fieldSize;
 
-//             foreach (var bugIndeks in bugsIndices)
-//             {
-//                 if (bugIndeks < 0 || bugIndeks >= field.Length)
-//                 {
-//                     continue;
-//                 }
+    if (fieldSize === 0) {
+        return;
+    }
 
-//                 field[bugIndeks] = 1;
-//             }
+    for ( let bugIndex in bugsIndexes) {
+        bugIndex = Number(bugIndex);
+        if (!(bugIndex < 0 || bugIndex >= field.length)) {
+            field[bugsIndex] = 1
+        }
+    }
 
-//             while (true)
-//             {
-//                 string commands = Console.ReadLine();
-//                 if (commands == "end")
-//                 {
-//                     break;
-//                 }
+    while (true) {
+        let commands = inputArr.shift();
+        let [bugIndex, direction, flyLength] = commands.split(' ');
+        bugIndex = Number(bugIndex);
+        flyLength = Number(flyLength);
 
-//                 string[] tokens = commands.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (bugIndex < 0 || bugIndex >= fieldSize) {
+            continue;
+        }
 
-//                 int bugIndex = int.Parse(tokens[0]);
-//                 string direction = tokens[1];
-//                 int flyLenght = int.Parse(tokens[2]);
+        if (field[bugIndex] === 0) {
+            continue;
+        }
 
-//                 if (bugIndex < 0 || bugIndex >= fieldSize)
-//                 {
-//                     continue;
-//                 }
+        field[bugIndex] = 0;
+        let position = bugIndex;
 
-//                 if (field[bugIndex] == 0)
-//                 {
-//                     continue;
-//                 }
+        while (true) {
+            if (direction == "right") {
+                position += flyLength;
+            } else {
+                position -= flyLength;
+            }
 
-//                 field[bugIndex] = 0;
-//                 int position = bugIndex;
+            if (position < 0 || position >= fieldSize) {
+                break;
+            }
 
-//                 while (true)
-//                 {
-//                     if (direction == "right")
-//                     {
-//                         position += flyLenght;
-//                     }
-//                     else
-//                     {
-//                         position -= flyLenght;
-//                     }
+            if (field[position] == 1) {
+                continue;
+            } else {
+                field[position] = 1;
+                break;
+            }
+        }
+    }
 
-//                     if (position < 0 || position >= fieldSize)
-//                     {
-//                         break;
-//                     }
+    console.log(field.join(' '));
+}
 
-//                     if (field[position] == 1)
-//                     {
-//                         continue;
-//                     }
-//                     else
-//                     {
-//                         field[position] = 1;
-//                         break;
-//                     }
-//                 }
-//             }
-
-//             Console.WriteLine(string.Join(" ", field));
-//         }
-//     }
-// }
-// © 2021 GitHub, Inc.
+ladyBug([3, '0 1', '0 right 1', '2 right 1']);
+ladyBug([3, '0 1 2', '0 right 1', '1 right 1', '2 right 1']);
+ladyBug([5, '3', '3 left 2', '1 left -2']);
