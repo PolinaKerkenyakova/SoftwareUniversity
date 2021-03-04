@@ -1,26 +1,28 @@
-function arrManipulations(commands) {
+function arrManipulations(input) {
 
-    let arr = commands.shift().split(' ').map(Number);
+    let numbers = input[0].split(' ').map(Number);
 
-    for (let i = 0; i < commands.length; i++) {
-        let token = commands[i].split(' ');
-        let command = token[0];
-        let number = Number(token[1]);
-        let index = Number(token[2]);
+    for (let i = 0; i < input.length; i++) {
+        let [command, numberOrIndex, index] = input[i].split(' ');
+
+        numberOrIndex = Number(numberOrIndex);
+        index = Number(index);
 
         if (command === 'Add') {
-            arr.push(number)
+            numbers.push(numberOrIndex);
+
         } else if (command === 'Remove') {
-            let indx = arr.indexOf(number);
-            arr.splice(indx, 1);
+           numbers = numbers.filter(num => num !== numberOrIndex);
+
         } else if (command === 'RemoveAt') {
-            arr.splice(number, 1);
+            numbers.splice(numberOrIndex, 1);
+
         } else if (command === 'Insert') {
-            arr.splice(index, 0, number);
+            numbers.splice(index, 0, numberOrIndex)
         }
     }
 
-    console.log(arr.join(' '))
+    console.log(numbers.join(' '));
 }
 
 arrManipulations(['4 19 2 53 6 43',
