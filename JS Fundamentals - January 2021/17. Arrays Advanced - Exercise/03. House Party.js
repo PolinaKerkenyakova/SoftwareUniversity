@@ -1,43 +1,34 @@
 function houseParty(input) {
 
     let list = [];
-    for (let i = 0; i < input.length; i++) {
-        let info = input[i].split(' ');
-        let name = info[0];
+    for (let guest of input) {
+        let [name, ...going] = guest.split(' ');
 
-        if (info.includes('not')) {
-            if (list.includes(name)) {
-                list.splice(i, 1)
-            } else {
-                console.log(`${name} is not in the list!`)
-            }
-        } else {
+        if (!(going.includes('not'))) {
             if (list.includes(name)) {
                 console.log(`${name} is already in the list!`)
             } else {
                 list.push(name);
             }
+        } else if (going.includes('not')) {
+            if (!(list.includes(name))) {
+                console.log(`${name} is not in the list!`)
+            } else {
+                let nameIndex = list.indexOf(name);
+                list.splice(nameIndex, 1);
+            }
         }
     }
 
-    console.log(list.join('\n'))
+    console.log(list.join('\n'));
 }
 
 houseParty(['Allie is going!',
 'George is going!',
 'John is not going!',
-'George is not going!']);   
-// Expected output:
-// John is not in the list!
-// Allie
-// houseParty(['Tom is going!',
-// 'Annie is going!',
-// 'Tom is going!',
-// 'Garry is going!',
-// 'Jerry is going!']);
-// Expected output:
-// Tom is already in the list!
-// Tom
-// Annie
-// Garry
-// Jerry
+'George is not going!']);
+houseParty(['Tom is going!',
+'Annie is going!',
+'Tom is going!',
+'Garry is going!',
+'Jerry is going!']);
