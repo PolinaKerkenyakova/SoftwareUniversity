@@ -67,5 +67,5 @@ function passwordValidator(password) {
 }
 
 passwordValidator('logIn');
-// passwordValidator('MyPass123');
-// passwordValidator('Pa$s$s');
+passwordValidator('MyPass123');
+passwordValidator('Pa$s$s');
