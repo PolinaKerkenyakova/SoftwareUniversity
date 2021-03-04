@@ -1,23 +1,16 @@
 function factorialDivision(firstNum, secondNum) {
 
-    let firstResult = multiplication(firstNum)
-    let endResult = division(firstResult, secondNum);
-
-    console.log(endResult);
-
-    function division(multiplicationResult, num) {
-
-        return Number(multiplicationResult / num).toFixed(2);
+    let firstFactorial = 1;
+    for (let i = firstNum; i >= 1; i--) {
+    firstFactorial *= i;
     }
 
-    function multiplication(num) {
-        let result = 1;
-        for (let i = 1; i <= num; i++) {
-            result *= i
+    let secondFactorial = 1;
+    for (let i = secondNum; i >= 1; i--) {
+        secondFactorial *= i;
         }
-
-        return result;
-    }
+    
+        console.log((firstFactorial / secondFactorial).toFixed(2))
 }
 
 factorialDivision(5, 2);
