@@ -1,29 +1,14 @@
 function distinctArray(numberArr) {
 
-    // for (let i = 0; i < numberArr.length; i++) {
-    //     let element = numberArr[i];
-
-    //     for (let j = i + 1; j < numberArr.length; j++) {
-    //         let current = numberArr[j];
-
-    //         if (element === current) {
-    //             numberArr.splice(j, 1)
-    //         }
-    //     }
-    // }
-
-    // console.log(numberArr.join(' '))
-
-
-    let modifiedArr = [];
+    let modifiedArray = [];
 
     for (let element of numberArr) {
-       if (!modifiedArr.includes(element)) {
-            modifiedArr.push(element);
-       }    
+        if (!(modifiedArray.includes(element))) {
+            modifiedArray.push(element)
+        }
     }
 
-    console.log(modifiedArr.join(' '))
+    console.log(modifiedArray.join(' '));
 }
 
 distinctArray([1, 2, 3, 4]); //Expected output: 1 2 3 4
