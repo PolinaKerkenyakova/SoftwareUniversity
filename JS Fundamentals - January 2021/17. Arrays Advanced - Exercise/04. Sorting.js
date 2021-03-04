@@ -1,21 +1,22 @@
-function sorting(numArray) {
+function sorting(input) {
 
-    numArray.sort((a, b) => b - a);
+    let modifiedArr = [];
 
-    let modifiedArray = [];
+    let numbers = [...input]
 
-    let lengthArr = numArray.length;
+    numbers = numbers.sort((a, b) => {
+        return b - a;
+    });
 
-    for (let i = 0; i < lengthArr; i++) {
-
+    for (let i = 0; i < input.length; i++) {
         if (i % 2 === 0) {
-            modifiedArray += numArray.shift() + ' ';
+            modifiedArr[i] = numbers.shift();
         } else {
-            modifiedArray += numArray.pop() + ' ';
+            modifiedArr[i] = numbers.pop();
         }
     }
 
-    console.log(modifiedArray);
+    console.log(modifiedArr.join(' '));
 }
 
 sorting([1, 21, 3, 52, 69, 63, 31, 2, 18, 94]);
