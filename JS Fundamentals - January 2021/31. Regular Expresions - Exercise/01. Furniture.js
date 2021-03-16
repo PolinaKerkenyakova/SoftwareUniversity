@@ -5,6 +5,7 @@ function furniture(input) {
 
     for (let data of input) {
         let match = />>(?<product>[A-Za-z]+)<<(?<price>[\d\.*\d*]+)\!(?<quantity>[\d]+)/g.exec(data);
+        // let match = />>(?<name>[A-Za-z]+)<<(?<price>[\d]+\.?[\d]*)!(?<quantity>[\d]+)/g.exec(data);
 
         if (match) {
             boughtFurniture.push(match.groups.product)
