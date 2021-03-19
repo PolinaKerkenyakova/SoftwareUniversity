@@ -21,10 +21,6 @@ function arrayManipulation(numbers, arrInput) {
                 numbers.push(num);
             }
         } else if (command === 'sumPairs') {
-            // if (numbers.length % 2 !== 0) {
-            //     numbers.pop();
-            // }
-            
             let nums = [];
             for (let i = 0; i < numbers.length; i += 2) {
                 nums.push(numbers[i] + numbers[i + 1]);
