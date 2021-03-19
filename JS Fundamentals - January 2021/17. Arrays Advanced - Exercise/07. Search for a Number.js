@@ -1,22 +1,21 @@
-function numberSearch(integers, commands) {
+function numberSearch(arrOne, arrTwo) {
 
-    let removeFromBeggining = commands[0];
-    let numbersToBeDeleted = commands[1];
-    let numberSearch = commands[2];
+    let numbersToBeTaken = arrTwo[0];
+    let numbersToBeDeleted = arrTwo[1];
+    let numberToBeSearchFor = arrTwo[2];
 
-    let takenNumbers = integers.slice(0, removeFromBeggining);
-
-    takenNumbers.slice(0, takenNumbers.length - numbersToBeDeleted)
+    let nums = arrOne.slice(0, numbersToBeTaken);
+    nums = nums.slice(numbersToBeDeleted);
 
     let occuringTimes = 0;
-
-    for (let num of takenNumbers) {
-        if (num === numberSearch) {
+    for (let i = 0; i < nums.length; i++) {
+       
+        if (nums[i] === numberToBeSearchFor) {
             occuringTimes++;
         }
     }
 
-    console.log(`Number ${numberSearch} occurs ${occuringTimes} times.`)
+    console.log(`Number ${numberToBeSearchFor} occurs ${occuringTimes} times.`)
 }
 
 numberSearch([5, 2, 3, 4, 1, 6],
