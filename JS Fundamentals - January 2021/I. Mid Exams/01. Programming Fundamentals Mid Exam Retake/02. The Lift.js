@@ -43,11 +43,11 @@ function theLift(inputArr) {
     }
 }
 
-// theLift
-//     ([
-//         "15",
-//         "0 0 0 0 0"
-//     ]);
+theLift
+    ([
+        "15",
+        "0 0 0 0 0"
+    ]);
 theLift
     ([
         "20",
