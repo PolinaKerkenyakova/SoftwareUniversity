@@ -4,7 +4,6 @@ function wordTour(inputArr) {
 
     let command = input.shift();
 
-
     while (command !== 'Travel') {
 
         let [operation, strOne, strTwo] = command.split(':');
@@ -15,13 +14,14 @@ function wordTour(inputArr) {
                 stops.splice(index, 0, strTwo);
                 stops = stops.join('');
             }
+
             console.log(stops);
 
         } else if (operation === 'Remove Stop') {
             let firstIndex = Number(strOne);
             let secondIndex = Number(strTwo);
             let validationOne = firstIndex < stops.length && firstIndex >= 0;
-            let validationTwo = secondIndex < stops.length && secondIndex >= 0;
+            let validationTwo = secondIndex < stops.length && secondIndex >= firstIndex;
 
             if (validationOne && validationTwo) {
                 stops = stops.split('');
@@ -30,11 +30,12 @@ function wordTour(inputArr) {
                 stops = stops.join('');
             }
             console.log(stops);
-        } else if (operation === 'Switch') {
 
-            while (stops.indexOf(strOne) > -1) {
-                stops = stops.replace(strOne, strTwo);
-            }
+        } else if (operation === 'Switch') {
+            let oldString = strOne;
+            let newString = strTwo;
+            let rgx = new RegExp(oldString, 'g');
+            stops = stops.replace(rgx, newString);
 
             console.log(stops);
         }
@@ -42,9 +43,7 @@ function wordTour(inputArr) {
         command = input.shift();
     }
 
-    if (command === 'Travel') {
-        console.log(`Ready for world tour! Planned stops: ${stops}`);
-    }
+    console.log(`Ready for world tour! Planned stops: ${stops}`);
 }
 
 wordTour([
