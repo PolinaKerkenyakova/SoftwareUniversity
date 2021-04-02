@@ -1,7 +1,6 @@
 function destinationMapper(strInput) {
 
     let regex = /([=/])(?<destination>[A-Z][A-Za-z]{2,})\1/g;
-    rege
     let destinations = [];
     let travelPoints = 0;
 
