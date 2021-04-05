@@ -1,36 +1,76 @@
-function needForSpeed(inputArr) {
+function needForSpeed(input) {
 
-    let input = [...inputArr]
-    let carsCount = input.shift();
-    let cars = [];
+    let cars = {};
+    let carsCount = Number(input.shift());
 
     for (let i = 0; i < carsCount; i++) {
-        let [carName, kms, carFuel] = input[i].split('|');
+        let [name, mileage, fuel] = input.shift().split('|');
+        mileage = Number(mileage);
+        fuel = Number(fuel);
 
-        let car = {
-            name: carName,
-            mileage: Number(kms),
-            fuel: Number(carFuel)
-        }
-
-        cars.push(car);
+        cars[name] = { mileage, fuel };
     }
 
-    let command = input.shift();
+    let commandLine = input.shift();
+    while (commandLine !== 'Stop') {
+        let [command, carName, firstArgument, secondArgument] = commandLine.split(' : ');
 
-    while (command !== 'Stop') {
-        let [operation, carBrand, tempOne, tempTwo] = command.split(' : ');
+        if (command === 'Drive') {
+            let distance = Number(firstArgument);
+            let fuel = Number(secondArgument);
 
-        if (operation === 'Drive') {
-            let distance = Number(tempOne);
-            let fuel = Number(tempTwo);
+            if (cars[carName].fuel >= fuel) {
+                cars[carName].mileage += distance;
+                cars[carName].fuel -= fuel;
 
+                console.log(`${carName} driven for ${distance} kilometers. ${fuel} liters of fuel consumed.`)
+
+                if (cars[carName].mileage >= 100000) {
+                    delete cars[carName];
+                    console.log(`Time to sell the ${carName}!`)
+                }
+            } else {
+                console.log(`Not enough fuel to make that ride`);
+            }
+
+        } else if (command === 'Refuel') {
+            let fuel = Number(firstArgument);
+            let oldFuel = cars[carName].fuel;
+
+            if (oldFuel + fuel > 75) {
+                cars[carName].fuel = 75;
+                console.log(`${carName} refueled with ${75 - oldFuel} liters`);
+            } else {
+                cars[carName].fuel += fuel;
+                console.log(`${carName} refueled with ${fuel} liters`);
+            }
+
+        } else if (command === 'Revert') {
+            let kilometers = Number(firstArgument);
+
+            if (cars[carName].mileage - kilometers < 10000) {
+                cars[carName].mileage = 10000;
+            } else {
+                cars[carName].mileage -= kilometers;
+                console.log(`${carName} mileage decreased by ${kilometers} kilometers`);
+            }
         }
-
-        command = input.shift();
+        commandLine = input.shift();
     }
 
+    let carEntries = Object.entries(cars);
 
+    let sortedCarEntries = carEntries.sort((a,b) => {
+        if (b[1].mileage === a[1].mileage) {
+            return a[0].localeCompare(b[0]);
+        } else {
+            return b[1].mileage - a[1].mileage;
+        }
+    });
+
+    for (const kvp of sortedCarEntries) {
+        console.log(`${kvp[0]} -> Mileage: ${kvp[1].mileage} kms, Fuel in the tank: ${kvp[1].fuel} lt.`);
+    }
 }
 
 needForSpeed([
