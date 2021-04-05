@@ -1,25 +1,60 @@
-function thePianist(inputArr) {
+function thePianist(input) {
 
-    let input = [...inputArr];
-    let piecesCount = input.shift();
-    let piecesNames = input.shift().split('|');
+    let piecesCount = Number(input.shift());
+    let pieces = {}
 
-    let piecesArr = [];
+    for (let i = 0; i < piecesCount; i++) {
+        let [piece, composer, key] = input.shift().split('|');
 
-    for (let name of piecesNames) {
-        let piece = {
-            name: name,
-        }
-        piecesArr.push(piece);
+        pieces[piece] = { composer, key };
     }
 
-    let command = input.shift();
+    let commandLine = input.shift();
 
-    while (command !== 'Stop') {
+    while (commandLine !== 'Stop') {
+        let [command, pieceName, firstArgument, secondArgument] = commandLine.split('|');
 
+        if (command === 'Add') {
+            if (pieces.hasOwnProperty(pieceName)) {
+                console.log(`${pieceName} is already in the collection!`);
+            } else {
+                let composer = firstArgument;
+                let key = secondArgument;
+                pieces[pieceName] = { composer, key };
+                console.log(`${pieceName} by ${composer} in ${key} added to the collection!`);
+            }
+        } else if (command === 'Remove') {
+            if (pieces.hasOwnProperty(pieceName)) {
+                delete pieces[pieceName];
+                console.log(`Successfully removed ${pieceName}!`);
+            } else {
+                console.log(`Invalid operation! ${pieceName} does not exist in the collection.`);
+            }
 
+        } else if (command === 'ChangeKey') {
+            if (pieces.hasOwnProperty(pieceName)) {
+                pieces[pieceName].key = firstArgument;
+                console.log(`Changed the key of ${pieceName} to ${firstArgument}!`);
+            } else {
+                console.log(`Invalid operation! ${pieceName} does not exist in the collection.`);
+            }
+        }
 
-        command = input.shift();
+        commandLine = input.shift();
+    }
+
+    let piecesCollectionEntries = Object.entries(pieces);
+
+    piecesCollectionEntries.sort((a, b) => {
+        if (a[0] !== b[0]) {
+            return a[0].localeCompare(b[0]);
+        } else {
+            return (a[1].composer).localeCompare(b[1].composer);
+        }
+    });
+
+    for (const kvp of piecesCollectionEntries) {
+        console.log(`${kvp[0]} -> Composer: ${kvp[1].composer}, Key: ${kvp[1].key}`)
     }
 }
 
@@ -33,8 +68,9 @@ thePianist([
     'Add|Fur Elise|Beethoven|C# Minor',
     'Remove|Clair de Lune',
     'ChangeKey|Moonlight Sonata|C# Major',
-    'Stop'  
-  ]);
+    'Stop'
+]);
+
 thePianist([
     '4',
     'Eine kleine Nachtmusik|Mozart|G Major',
@@ -47,4 +83,4 @@ thePianist([
     'ChangeKey|Spring|C Major',
     'Add|Nocturne|Chopin|C# Minor',
     'Stop'
-  ]);
+]);
