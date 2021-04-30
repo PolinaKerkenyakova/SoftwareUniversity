@@ -1,0 +1,137 @@
+/* --- BASIC SETUP --- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "PT Sans", sans-serif;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* --- REUSABLE COMPONENTS --- */
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* --- HEADER --- */
+
+
+/* LOGO */
+
+.logo-box {
+  float: left;
+  padding: 20px;
+}
+
+.logo-box p {
+    font-size: 20px;
+}
+
+.logo-box span {
+  color: #50b9e1;
+}
+
+/* MAIN NAVIGATION */
+
+nav {
+  float: right;
+  padding: 20px;
+}
+
+.menu {
+  float: left;
+}
+
+.social-icons {
+  float: right;
+  margin-left: 30px;
+}
+
+.menu li,
+.social-icons li {
+  list-style: none;
+  display: inline-block;
+}
+
+.menu li {
+  padding: 0 15px;
+}
+
+.social-icons li {
+  padding: 0 5px;
+}
+
+.menu li a,
+.social-icons li a {
+  text-decoration: none;
+  color: #777;
+  transition: all .2s;
+}
+
+.menu li a:hover,
+.social-icons li a:hover {
+    color: #50b9e1;
+}
+
+.social-icons li a {
+  font-size: 14px;
+  border: 1px solid #777;
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.social-icons li a:hover {
+    border: 1px solid #50b9e1;
+}
+
+/* HERO IMAGE SECTION */
+
+.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../Requirements and Resources/Images/kids_main.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 86vh;
+    position: relative;
+}
+
+.hero-text {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+}
+
+.hero-text h1 {
+    font-size: 66px;
+    color: #fff;
+    width: 60%;
+    margin-bottom: 30px;
+}
+
+.hero-text button {
+    font-size: 26px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.hero-text button:hover {
+    background-color: #50b9e1;
+    border: 2px solid #50b9e1;
+
+}
+
+/* --- MAIN --- */
+
+/* --- FOOTER --- */
