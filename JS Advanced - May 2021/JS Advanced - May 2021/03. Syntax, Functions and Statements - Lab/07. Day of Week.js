@@ -1,7 +1,6 @@
 function dayOfWeek(day) {
 
     let result;
-
     switch (day) {
         case 'Monday': result = 1; break;
         case 'Tuesday': result = 2; break;
