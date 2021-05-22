@@ -7,7 +7,7 @@ function pieceOfPie(inputArray, start, end) {
         result = inputArray.slice(from, to + 1);
     }
 
-    console.log(result);
+    return result;
 }
 
 pieceOfPie(['Pumpkin Pie',
