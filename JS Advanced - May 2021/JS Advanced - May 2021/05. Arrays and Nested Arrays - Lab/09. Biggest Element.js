@@ -1,21 +1,20 @@
 function biggestElement(inputArray) {
 
-    let biggestNum = 0;
-    inputArray.forEach(row);
+    let biggestElement = Number.MIN_SAFE_INTEGER;
 
-    function row(currentRow) {
-        currentRow.forEach(checkForBiggestNum);
+    inputArray.forEach(checkRow);
+
+    function checkRow(row) {
+        row.forEach(checkNum)
     }
 
-    function checkForBiggestNum(num) {
-        if (biggestNum < num) {
-            biggestNum = num;
+    function checkNum(num) {
+        if (num > biggestElement) {
+            biggestElement = num;
         }
-
-        return biggestNum;
     }
 
-    console.log(biggestNum);
+    return biggestElement;
 }
 
 biggestElement([
