@@ -1,11 +1,10 @@
 function pieceOfPie(inputArray, start, end) {
-    if (inputArray.indexOf(start)) {
+    
         let from = inputArray.indexOf(start);
         let to = inputArray.indexOf(end)
         let result = inputArray.slice(from, to + 1);
 
         return result;
-    }
 }
 
 pieceOfPie(['Pumpkin Pie',
