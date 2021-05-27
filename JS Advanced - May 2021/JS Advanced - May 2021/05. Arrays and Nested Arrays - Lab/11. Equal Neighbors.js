@@ -1,5 +1,9 @@
 function equalNeighbors(inputArray) {
 
+    let equalNeighborCount = 0;
+
+   
+
 }
 
 equalNeighbors([
