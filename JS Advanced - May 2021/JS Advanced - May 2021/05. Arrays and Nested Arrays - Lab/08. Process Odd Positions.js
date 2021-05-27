@@ -11,9 +11,9 @@ function processOddPositions(inputArray) {
     // oddNumbers = oddNumbers.map(num => num * 2).reverse();
 
     oddNumbers = inputArray.filter((x, i) => i % 2 !== 0)
-    .map(x => x * 2)
-    .reverse()
-    .join(' ');
+        .map(x => x * 2)
+        .reverse()
+        .join(' ');
 
     console.log(oddNumbers);
 }

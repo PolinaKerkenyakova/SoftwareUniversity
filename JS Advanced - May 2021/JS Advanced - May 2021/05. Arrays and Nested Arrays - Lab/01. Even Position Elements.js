@@ -2,8 +2,8 @@ function evenPositionElements(inputArray) {
 
     let elements = [];
 
-    for (let i = 0; i < inputArray.length; i+=2) {
-       let element = inputArray[i];
+    for (let i = 0; i < inputArray.length; i += 2) {
+        let element = inputArray[i];
         elements.push(element);
     }
 
