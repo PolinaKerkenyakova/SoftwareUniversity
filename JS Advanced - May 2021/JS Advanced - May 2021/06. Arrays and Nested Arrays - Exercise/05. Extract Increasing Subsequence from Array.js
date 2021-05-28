@@ -1,23 +1,32 @@
+// function extractSubsequenceFromArray(inputArr) {
+
+//     let subsequence = [];
+//     let lastBigNum = Number.MIN_SAFE_INTEGER;
+
+//     for (let num of inputArr) {
+//         if (num >= lastBigNum) {
+//             lastBigNum = num;
+//             subsequence.push(lastBigNum);
+//         }
+//     }
+
+//     return subsequence;
+// }
+
+
 function extractSubsequenceFromArray(inputArr) {
+       return inputArr.reduce((accArr, curr) => {
 
-    let numberArr = []
-
-    let reducer = ((a, curr) => {
-        if (a < curr) {
-            numberArr.push(a);
-
-            return a = curr;
-        } else {
-            return a;
+        let acc = accArr[accArr.length - 1];
+        if (acc <= curr || accArr.length === 0) {
+            accArr.push(curr)
         }
-    });
 
-    inputArr.reduce(reducer)
-
-   return numberArr;
+        return accArr;
+       }, []);
 }
 
-extractSubsequenceFromArray([
+console.log(extractSubsequenceFromArray([
     1,
     3,
     8,
@@ -27,7 +36,7 @@ extractSubsequenceFromArray([
     3,
     2,
     24
-]);
+]));
 
 extractSubsequenceFromArray([
     1,
