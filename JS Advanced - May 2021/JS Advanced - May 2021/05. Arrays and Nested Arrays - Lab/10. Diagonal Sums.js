@@ -1,17 +1,17 @@
 function diagonalSums(inputArr) {
 
-    let firstDiagonal = 0;
-    let secondDiagonal = 0;
+    let startIndex = 0;
+    let endIndex = inputArr.length - 1;
 
-    let firstIndex = 0;
-    let endIndex = inputArr[0].length - 1;
+    let mainDiagonalSum = 0;
+    let secondaryDiagonalSum = 0;
 
-    inputArr.forEach(array => {
-        firstDiagonal += array[firstIndex++];
-        secondDiagonal += array[endIndex--]
+    inputArr.forEach(row => {
+        mainDiagonalSum += row[startIndex++];
+        secondaryDiagonalSum += row[endIndex--];
     });
 
-    console.log(`${firstDiagonal} ${secondDiagonal}`);
+    console.log(`${mainDiagonalSum} ${secondaryDiagonalSum}`);
 }
 
 diagonalSums([
