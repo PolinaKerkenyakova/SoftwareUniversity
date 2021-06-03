@@ -12,5 +12,5 @@ function extract(content) {
         result = regex.exec(content)
     }
 
-    return output.join('; ');
+    return output.join('; '); 
 }
