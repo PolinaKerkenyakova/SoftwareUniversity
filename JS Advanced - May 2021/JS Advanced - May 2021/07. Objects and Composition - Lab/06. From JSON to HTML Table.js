@@ -1,37 +1,49 @@
-function fromJSONToHTMLTable(input) {
-    //Write your code here
-    const escaper = (str) => {
-      if (typeof str !== 'string') {
-        return str
-      } else {
-        str = str.replace(/&/g, "&amp;")
-        str = str.replace(/</g, "&lt;")
-        str = str.replace(/>/g, "&gt;")
-        str = str.replace(/"/g, "&quot;")
-        str = str.replace(/'/g, "&#39;");
-      }
-      return str
+function fromJSONToHTMLTable(json) {
+    let arr = JSON.parse(json);
+
+    let outputArr = ['<table>'];
+    outputArr.push(makeKeyRow(arr));
+    arr.forEach((obj) => outputArr.push(makeValueRow(obj)));
+    outputArr.push('</table>');
+
+    console.log(outputArr.join('\n'));
+
+    function makeKeyRow(arr) {
+        let result = '  <tr>';
+        Object.keys(arr[0]).forEach(key => {
+            result += `<th>${escapeHtml(key)}</th>`;
+        });
+        result += '</tr>';
+        return result;
     }
-  
-  
-    //input = input.shift()
-    //input = escaper(input)
-    input = JSON.parse(input);
-    let row = `<table>\n`;
-    row += "\t<tr>";
-    let keys = Object.keys(input[0]);
-    keys.map((el) => row += `<th>${el}</th>`)
-    row += `</tr>\n`;
-    input.map((line) => {
-      row += `\t<tr>`;
-      Object.entries(line).map((el) => {
-        if (keys.includes(el[0])) {
-          row += `<td>${escaper(el[1])}</td>`;
-        }
-      })
-      row += `</tr>\n`;
-    })
-    row += `</table>\n`;
-    //console.log(row);
-    return row;
-  }
+
+    function makeValueRow(obj) {
+        let result = '  <tr>';
+        Object.values(obj).forEach(value => {
+            result += `<td>${escapeHtml(value)}</td>`;
+        });
+        result += '</tr>';
+        return result;
+    }
+
+    function escapeHtml(value) {
+        return value
+            .toString()
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+}
+
+fromJSONToHTMLTable(`[
+    { "Name": "Stamat", "Score": 5.5 },
+    { "Name": "Rumen", "Score": 6 }
+]`);
+
+// fromJSONToHTMLTable(`[
+//     { "Name": "Pesho", "Score": 4, " Grade": 8 },
+//     { "Name": "Gosho", "Score": 5, " Grade": 8 },
+//     { "Name": "Angel", "Score": 5.50, " Grade": 10 }'
+// ]`);
