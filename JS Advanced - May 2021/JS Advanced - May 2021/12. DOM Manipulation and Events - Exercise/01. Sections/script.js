@@ -1,18 +1,19 @@
-function create(words) {
+function create(inputArr) {
 
-   let contentDiv = document.querySelector('#content');
-   for (let word of words) {
-      let newDiv = document.createElement('div');
-      let p = document.createElement('p');
-      p.textContent = word;
-      p.style.display = 'none';
-      newDiv.appendChild(p);
-      newDiv.addEventListener('click', showParagraph);
-      contentDiv.appendChild(newDiv);
-   }
+    let content = document.querySelector('#content')
 
-   function showParagraph(event) {
-      let divParent = event.target.children;
-      divParent[0].style.display = 'block';
-   }
+    inputArr.forEach(x => {
+        let div = document.createElement('div');
+        let p = document.createElement('p');
+        p.textContent = x;
+        p.style.display = 'none';
+
+        div.appendChild(p);
+        div.addEventListener('click', function(e) {
+            let p = e.target.children[0];
+            p.style.display = 'inline-block';
+        });
+
+        content.appendChild(div);
+    });
 }
