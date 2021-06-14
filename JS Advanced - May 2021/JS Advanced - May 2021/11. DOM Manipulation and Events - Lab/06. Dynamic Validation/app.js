@@ -1,16 +1,16 @@
 function validate() {
-    let regex = /[a-z]+@[a-z]+.[a-z]+/g;
+    let emailField = document.querySelector('#email');
 
-    let inputField = document.querySelector('#email');
+    emailField.addEventListener('change', validateE);
 
-    inputField.addEventListener('change', checkForError);
-
-    function checkForError(event) {
-        if (regex.test(event.target.value)) {
-            event.target.classList.remove('error');
-            return;
+    let regex = /[a-z]+[@][a-z]+\.[a-z]+/g;
+    
+    function validateE(e) {
+        let el = e.target.value
+        if (regex.test(el)) {
+            emailField.classList.remove('error');
         } else {
-            event.target.classList.add('error');
+            emailField.classList.add('error');
         }
     }
 }

@@ -1,12 +1,7 @@
 function addItem() {
-    let listField = document.querySelector('#items');
-    let inputField = document.querySelector('#newItemText');
-
-    let inputValue = inputField.value;
-
-    let newLi = document.createElement('li');
-    newLi.textContent = inputValue;
-    listField.appendChild(newLi);
-
-    inputField.value = '';
+    let items = document.querySelector('#items');
+    let addField = document.querySelector('#newItemText');
+    let li = document.createElement('li');
+    li.textContent = addField.value;
+    items.appendChild(li);
 }
