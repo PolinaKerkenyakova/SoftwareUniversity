@@ -2,7 +2,6 @@ function focused() {
     let inputs = Array.from(document.querySelectorAll('div input'));
 
     inputs.forEach(input => {
-        console.log(input);
         input.addEventListener('focus', gotFocus);
         input.addEventListener('blur', lostBlur);
     });

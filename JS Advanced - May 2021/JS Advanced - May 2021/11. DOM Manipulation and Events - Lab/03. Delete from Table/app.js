@@ -1,5 +1,5 @@
 function deleteByEmail() {
-    let inputField = document.querySelector('input[type=text]');
+    let inputField = document.querySelector('input[type="text"]');
     let input = inputField.value;
     let tr = Array.from(document.querySelectorAll('tbody tr'));
     let resultField = document.querySelector('#result');
