@@ -1,5 +1,5 @@
 function create(inputArr) {
-
+    
     let content = document.querySelector('#content')
 
     inputArr.forEach(x => {
