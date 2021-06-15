@@ -1,0 +1,286 @@
+/* --- BASIC SETUP --- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "PT Sans", sans-serif;
+}
+
+.container {
+  padding: 20px 20px 0 20px;
+}
+
+/* --- REUSABLE COMPONENTS --- */
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+section {
+  padding: 50px 0;
+}
+
+h2 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  font-style: italic;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* --- HEADER --- */
+
+/* LOGO */
+
+.logo-box {
+  float: left;
+  padding: 20px;
+}
+
+.logo-box p {
+  font-size: 20px;
+}
+
+.logo-box span {
+  color: #50b9e1;
+}
+
+/* MAIN NAVIGATION */
+
+.main-nav {
+  float: right;
+  padding: 20px;
+}
+
+.menu {
+  float: left;
+}
+
+.social-icons {
+  float: right;
+  margin-left: 30px;
+}
+
+.menu li,
+.social-icons li {
+  list-style: none;
+  display: inline-block;
+}
+
+.menu li {
+  padding: 0 15px;
+}
+
+.social-icons li {
+  padding: 0 5px;
+}
+
+.menu li a,
+.social-icons li a {
+  text-decoration: none;
+  color: #777;
+  transition: all 0.2s;
+}
+
+.menu li a:hover,
+.social-icons li a:hover {
+  color: #50b9e1;
+}
+
+.social-icons li a {
+  font-size: 14px;
+  border: 1px solid #777;
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.social-icons li a:hover {
+  border: 1px solid #50b9e1;
+}
+
+/* HERO IMAGE SECTION */
+
+.hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../Requirements and Resources/Images/kids_main.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 86vh;
+  position: relative;
+}
+
+.hero-text {
+  position: absolute;
+  top: 25%;
+  left: 5%;
+}
+
+.hero-text h1 {
+  font-size: 66px;
+  color: #fff;
+  width: 60%;
+  margin-bottom: 30px;
+}
+
+.hero-text button {
+  font-size: 26px;
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 5px 10px;
+  transition: all 0.2s;
+}
+
+.hero-text button:hover {
+  background-color: #50b9e1;
+  border: 2px solid #50b9e1;
+}
+
+/* --- MAIN --- */
+
+/* Section Info */
+
+.section-info {
+  width: 60%;
+  margin: 0 auto;
+  color: #5a7c8a;
+  text-align: center;
+}
+
+.section-info p {
+  margin-bottom: 20px;
+}
+
+.section-info p a {
+  color: #50b9e1;
+  text-decoration: none;
+}
+
+/* Section offerings */
+
+.section-offerings {
+  background-color: #50b9e1;
+  color: #fff;
+}
+
+.section-offerings img {
+  height: 50px;
+}
+
+.offers {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.offer {
+  float: left;
+  width: 30%;
+}
+
+.offer:not(:last-child) {
+  margin-right: 5%;
+}
+
+.offer img,
+.offer h3 {
+  margin-bottom: 20px;
+}
+
+/* Section camps */
+
+.section-camps {
+  color: #5a7c8a;
+}
+
+.camp {
+  width: 30%;
+  float: left;
+}
+
+h2 + p {
+  width: 60%;
+  margin: 0 auto 30px auto;
+  font-style: italic;
+  text-align: center;
+}
+
+.camp:not(:last-child) {
+  margin-right: 5%;
+}
+
+.camp img {
+  width: 100%;
+  height: 245px;
+}
+
+.camp-info {
+  float: left;
+}
+
+.camp-info p:first-child {
+  font-weight: 700;
+}
+
+.camp-price {
+  float: right;
+  color: #fff;
+  background-color: #50b9e1;
+  padding: 15px;
+  font-size: 26px;
+}
+
+.info-box {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #5a7c8a;
+}
+
+.camp-text {
+  margin: 15px 0;
+}
+
+.section-camps button {
+  font-size: 18px;
+  color: #43bae3;
+  border: 2px solid #43bae3;
+  transition: all 0.2s;
+  background-color: #fff;
+  padding: 5px 10px;
+}
+
+.section-camps button:hover {
+  color: #fff;
+  border: 2px solid #43bae3;
+  background-color: #43bae3;
+}
+
+/* --- FOOTER --- */
+
+footer {
+  background-color: #43bae3;
+  font-size: 16px;
+  color: #5a7c8a;
+  padding: 20px 0;
+}
+
+footer p {
+  float: left;
+}
+
+.footer-nav {
+  float: right;
+}
+
+.footer-nav .social-icons li a:hover {
+  color: #5a7c8a;
+  border: 1px solid #5a7c8a;
+}
