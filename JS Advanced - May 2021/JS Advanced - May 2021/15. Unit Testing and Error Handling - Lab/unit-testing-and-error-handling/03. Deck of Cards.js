@@ -17,16 +17,8 @@ function deckOfCards(inputArr) {
     let currentCard = '';
 
     inputArr.forEach(card => {
-        let face = '';
-        let suit = '';
-        let firtsNum = '';
-        let secondNum = ''
-        if (card.length === 3) {
-            [firtsNum, secondNum, suit] = card.split('');
-            face = [firtsNum, secondNum].join('');
-        } else {
-            [face, suit] = card.split('');
-        }
+        let face = card.slice(0, card.length - 1);
+        let suit = card.slice(card.length - 1);
 
         if (cards.faces.includes(face) && cards.suits.includes(suit)) {
             result.push(`${face}${suitIcons[suit]}`)
@@ -34,7 +26,7 @@ function deckOfCards(inputArr) {
             isCardInvalid = true;
             currentCard = card;
         }
-    })
+    });
 
     if (isCardInvalid) {
         console.log(`Invalid card: ${currentCard}`);
