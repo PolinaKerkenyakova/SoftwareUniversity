@@ -1,65 +1,52 @@
-const { expect } = require('chai');
-const { addFive, subtractTen, sum } = require('../04. Math Enforcer');
+let { expect } = require('chai');
+let mathEnforcer = require('../04. Math Enforcer');
 
-describe('mathEnforcer()', () => {
-
-    describe('addFive()', () => {
-        it('When parameter is a integer number', () => {
-            addFive(5);
-            let expectedResult = num += 5;
-            let acrualResult = 10;
-            expect(expectedResult).to.equal(acrualResult);
-        });
-
-        it('When parameter is a floating number', () => {
-            addFive(5.1);
-            let expectedResult = num += 5;
-            let acrualResult = 10.1;
-            expect(expectedResult).to.equal(acrualResult);
-        });
-
-        it('When parameter is not a number', () => {
-            expect(addFive('5')).to.equal(undefined);
-            expect(addFive('test')).to.equal(undefined);
-        });
-    });
-
-    describe('subtractTen()', () => {
-        it('When parameter is a integer number', () => {
-            subtractTen(5);
-            let expectedResult = num -= 10;
-            let acrualResult = -5;
-            expect(expectedResult).to.equal(acrualResult);
-        });
-
-        it('When parameter is a floating number', () => {
-            subtractTen(10.5);
-            let expectedResult = num -= 10;
-            let acrualResult = 0.5;
-            expect(expectedResult).to.equal(acrualResult);
-        });
-
-        it('When parameter is not a number', () => {
-            expect(subtractTen('10')).to.equal(undefined);
-            expect(subtractTen('test')).to.equal(undefined);
-        });
-    });
-
-
-    describe('sum()', () => {
-        it('When parameters are not numbers', () => {
-            expect(sum('5', '1')).to.equal(undefined);
-            expect(sum('test', 'tset')).to.equal(undefined);
-        });
-
-        it('When parameters are integer numbers', () => {
-            expect(sum(1, 1)).to.equal(2);
-            expect(sum(-1, -2)).to.equal(-3);
-        });
-
-        it('When parameters are floating numbers', () => {
-            expect(sum(1.5, 1.6)).to.be.closeTo(3, 0.5);
-            expect(sum(-1.2, -1.3)).to.be.closeTo(-2, 0.6);
-        });
-    });
-});
+describe('mathEnforcer', () => {
+    describe('addFive', () => {
+        it('Should return undefined when parameter is not a number', () => {
+            expect(mathEnforcer.addFive(undefined)).to.equal(undefined);
+            expect(mathEnforcer.addFive(null)).to.equal(undefined);
+            expect(mathEnforcer.addFive('20')).to.equal(undefined);
+        })
+ 
+        it('Should return number plus 5 when parameter is valid number', () => {
+            expect(mathEnforcer.addFive(10)).to.equal(15);
+            expect(mathEnforcer.addFive(1.1 + 2.2)).to.closeTo(8.3, 0.01);
+            expect(mathEnforcer.addFive(-10)).to.equal(-5);
+        })
+    })
+ 
+    describe('subtractTen', () => {
+        it('Should return undefined when parameter is not a number', () => {
+            expect(mathEnforcer.subtractTen(undefined)).to.equal(undefined);
+            expect(mathEnforcer.subtractTen(null)).to.equal(undefined);
+            expect(mathEnforcer.subtractTen('20')).to.equal(undefined);
+        })
+ 
+        it('Should return number plus 5 when parameter is valid number', () => {
+            expect(mathEnforcer.subtractTen(10)).to.equal(0);
+            expect(mathEnforcer.subtractTen(1.1 + 2.2)).to.closeTo(-6.7, 0.01);
+            expect(mathEnforcer.subtractTen(-10)).to.equal(-20);
+        })
+    })
+ 
+    describe('sum', () => {
+        it('Should return undefined when first parameter is not a number', () => {
+            expect(mathEnforcer.sum(undefined, 1)).to.equal(undefined);
+            expect(mathEnforcer.sum(null, 1)).to.equal(undefined);
+            expect(mathEnforcer.sum('13', 1)).to.equal(undefined);
+        })
+ 
+        it('Should return undefined when second parameter is not a number', () => {
+            expect(mathEnforcer.sum(1, undefined)).to.equal(undefined);
+            expect(mathEnforcer.sum(1, null)).to.equal(undefined);
+            expect(mathEnforcer.sum(1, '13')).to.equal(undefined);
+        })
+ 
+        it('Should return the sum of both numbers when both parameter are valid numbers', () => {
+            expect(mathEnforcer.sum(10, 20)).to.equal(30);
+            expect(mathEnforcer.sum(1.1 + 2.2, 3.3)).to.closeTo(6.6, 0.01);
+            expect(mathEnforcer.sum(-10, -5)).to.equal(-15);
+        })
+    })
+})
