@@ -20,7 +20,6 @@ class Circle {
     }
 }
 
-
 let c = new Circle(2);
 console.log(`Radius: ${c.radius}`);
 console.log(`Diameter: ${c.diameter}`);
