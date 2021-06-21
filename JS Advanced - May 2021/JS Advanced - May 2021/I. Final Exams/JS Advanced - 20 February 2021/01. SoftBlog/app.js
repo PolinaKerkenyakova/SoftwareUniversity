@@ -1,12 +1,15 @@
 function solve() {
 
-   let newArticle = document.createElement('atricle');
+   let newArticle = document.createElement('article');
    let author = document.querySelector('#creator');
    let title = document.querySelector('#title');
    let category = document.querySelector('#category');
    let content = document.querySelector('#content');
    let formBtn = document.querySelector('form button');
    let postsSection = document.querySelector('main section');
+
+    // Archive Section
+    let archiveSectionOl = document.querySelector('.archive-section ol');
 
 
    formBtn.addEventListener('click', (e) => {
@@ -18,14 +21,16 @@ function solve() {
 
       // Category
       let catP = document.createElement('p');
+      catP.textContent = 'Category:'
       let catStrong = document.createElement('strong');
-      catStrong.textContent = `Category: ${category.value}`;
+      catStrong.textContent = `${category.value}`;
       catP.appendChild(catStrong);
 
       // Creator
       let creatorP = document.createElement('p');
+      creatorP.textContent = 'Creator:'
       let creatorStrong = document.createElement('strong');
-      creatorStrong.textContent = `Creator: ${author.value}`;
+      creatorStrong.textContent = `${author.value}`;
       creatorP.appendChild(creatorStrong);
 
       // Content
@@ -57,9 +62,27 @@ function solve() {
 
       postsSection.appendChild(newArticle);
 
+     
+
       // Add functionality to Archive button
-         
+      btnArchive.addEventListener('click', (e) => {
+         let li = document.createElement('li');
+         li.textContent = title.value;
+         archiveSectionOl.appendChild(li);
+
+         // Current article removal
+         e.target.parentNode.parentNode.remove();
+      });
 
       // Add functionality to Delete button
+      btnDelete.addEventListener('click', (e) => {
+         e.target.parentNode.parentNode.remove();
+      });
    });
+
+   let ol = [...document.getElementsByTagName('ol')];
+   let lis = ol.children;
+  
+   console.log(lis);
+   // lis.sort((a, b) => a.textContent.localeCompare(b.textContent));
 }
