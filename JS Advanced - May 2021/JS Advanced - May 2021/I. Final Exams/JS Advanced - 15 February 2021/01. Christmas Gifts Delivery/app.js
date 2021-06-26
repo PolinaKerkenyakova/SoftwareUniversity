@@ -34,8 +34,16 @@ function solution() {
 
         ulListOfGifts.appendChild(li);
 
-        // Sorting List of Gifts DOES NOT WORK
+        // Sorting List of Gifts
+        let listOfGiftsLis = Array.from(ulListOfGifts.querySelectorAll('li'));
 
+        listOfGiftsLis.sort((a, b) => {
+            return a.textContent.localeCompare(b.textContent);
+        });
+
+        listOfGiftsLis.forEach(li => {
+            ulListOfGifts.appendChild(li);
+        });
 
         // Discard button functionality
         discardButton.addEventListener('click', discardGift);
