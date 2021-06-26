@@ -22,9 +22,9 @@ class ChristmasDinner {
     }
 
     recipes({ recipeName, productsList }) {
-        let arePresent = productsList.every(x => this.products.includes(x));
+        let areProductsPresent = productsList.every(x => this.products.includes(x));
 
-        if (arePresent) {
+        if (areProductsPresent) {
             this.dishes.push({ recipeName, productsList });
             return `${recipeName} has been successfully cooked!`
         }
@@ -34,12 +34,13 @@ class ChristmasDinner {
 
     inviteGuests(name, dish) {
         
-        if (!this.dishes.includes(dish)) {
+        let dishName = this.dishes.find(x=> x.recipeName === dish);
+        
+        if (!dishName) {
             throw new Error('We do not have this dish');
         }
 
-        let guest = this.getGuest(name);
-        if (guest) {
+        if (this.guests.hasOwnProperty(name)) {
             throw new Error('This guest has already been invited');
         }
 
@@ -58,12 +59,8 @@ class ChristmasDinner {
 
     }
 
-    getGuest(name) {
-        return this.guests.find(x => x[name] === name);
-    }
-
     getProducts(dish) {
-        return this.dishes.find(x => x.recipeName === dish);
+        return this.dishes.find(x => x.recipeName === dish).productsList;
     }
 }
 

@@ -1,101 +1,95 @@
 function solve() {
-   let createBtn = document.querySelector('form .create');
+
+   let createBtn = document.querySelector('form button');
+
+   let authorField = document.querySelector('#creator');
+   let titleField = document.querySelector('#title');
+   let categoryField = document.querySelector('#category');
+   let contentField = document.querySelector('#content');
 
    createBtn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      // Getting Data from Input Fields
-      let author = document.querySelector('#creator');
-      let title = document.querySelector('#title');
-      let category = document.querySelector('#category');
-      let content = document.querySelector('#content');
-
-      let sectionPosts = document.querySelector('main section');
-
-      // Creating the atricle
-
+      // Creating new article
       let article = document.createElement('article');
 
-      // h1
       let h1 = document.createElement('h1');
-      h1.textContent = title.value;
+      h1.textContent = titleField.value;
 
-      // Paragraph for the category
       let pCategory = document.createElement('p');
-      pCategory.textContent = 'Category:'
-
+      pCategory.textContent = 'Category:';
       let strongCategory = document.createElement('strong');
-      strongCategory.textContent = category.value;
-
+      strongCategory.textContent = categoryField.value;
       pCategory.appendChild(strongCategory);
 
-      // Paragraph for the creator
       let pCreator = document.createElement('p');
       pCreator.textContent = 'Creator:';
-
       let strongCreator = document.createElement('strong');
-      strongCreator.textContent = author.value;
-
+      strongCreator.textContent = authorField.value;
       pCreator.appendChild(strongCreator);
 
-      // Paragraph for the content
       let pContent = document.createElement('p');
-      pContent.textContent = content.value;
+      pContent.textContent = contentField.value;
 
-      // Div container for the buttons
-      let divButtons = document.createElement('div');
-      divButtons.setAttribute('class', 'buttons');
+      let div = document.createElement('div');
+      div.classList.add('buttons');
 
-      // Delete button
-      let btnDelete = document.createElement('button');
-      btnDelete.classList.add('btn', 'delete');
-      btnDelete.textContent = 'Delete';
+      let deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('btn', 'delete');
+      deleteBtn.textContent = 'Delete';
 
-      // Archive button
-      let btnArchive = document.createElement('button');
-      btnArchive.classList.add('btn', 'archive');
-      btnArchive.textContent = 'Archive';
+      let archiveBtn = document.createElement('button');
+      archiveBtn.classList.add('btn', 'archive');
+      archiveBtn.textContent = 'Archive';
 
-      divButtons.appendChild(btnDelete);
-      divButtons.appendChild(btnArchive);
+      div.appendChild(deleteBtn);
+      div.appendChild(archiveBtn);
 
       // Appending article's children
       article.appendChild(h1);
       article.appendChild(pCategory);
       article.appendChild(pCreator);
       article.appendChild(pContent);
-      article.appendChild(divButtons);
+      article.appendChild(div);
 
-      sectionPosts.appendChild(article);
+      // Appending the article to the Posts Section
+      let postsSection = document.querySelector('main section');
 
-      // Adding functionality to the article buttons
-      btnDelete.addEventListener('click', (e) => {
-         e.target.parentNode.parentNode.remove();
+      postsSection.appendChild(article);
+
+      // Adding functionality to the article's buttons
+      deleteBtn.addEventListener('click', (e) => {
+         e.currentTarget.parentNode.parentNode.remove();
       });
 
-      btnArchive.addEventListener('click', (e) => {
-         // Selecting ol inside Archive section
-         let olArchive = document.querySelector('.archive-section ol');
+      archiveBtn.addEventListener('click', (e) => {
+         let archiveOl = document.querySelector('.archive-section ol');
 
-         let clickedArticle = e.target.parentNode.parentNode;
-         let title = clickedArticle.querySelector('h1').textContent;
+         let currentArticle = e.currentTarget.parentNode.parentNode;
+         let currentH1 = currentArticle.querySelector('h1');
+         let li = document.createElement('li');
+         li.textContent = currentH1.textContent;
 
-         // Creating new li
-         let liArchive = document.createElement('li');
-         liArchive.textContent = title;
+         archiveOl.appendChild(li);
 
-         olArchive.appendChild(liArchive);
+         // Sorting archive lis
+         let archiveLis = Array.from(archiveOl.querySelectorAll('li'));
 
-         // Sorting lis in the archive section
-         Array.from(olArchive.children).sort((a, b) => a.textContent.localeCompare(b.textContent))
-            .forEach(li => olArchive.appendChild(li));
+         archiveLis.sort((a, b) => {
+            return a.textContent.localeCompare(b.textContent);
+         });
+         
+         archiveLis.forEach(li => {
+            archiveOl.appendChild(li);
+         });
 
-         clickedArticle.remove();
+         e.currentTarget.parentNode.parentNode.remove();
       });
 
-      author.value = '';
-      title.value = '';
-      category.value = '';
-      content.value = '';
+      // Clearing the input fields
+      authorField.value = '';
+      titleField.value = '';
+      categoryField.value = '';
+      contentField.value = '';
    });
 }
