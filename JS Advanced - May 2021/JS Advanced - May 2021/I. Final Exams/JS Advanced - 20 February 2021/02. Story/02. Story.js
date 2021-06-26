@@ -7,103 +7,110 @@ class Story {
     }
 
     get likes() {
-        if (this._likes.length == 0) {
+        if (this._likes.length === 0) {
             return `${this.title} has 0 likes`;
         }
 
-        if (this._likes.length == 1) {
-            return `${this._likes[0]} likes this story!` 
+        let username = this._likes[0];
+
+        if (this._likes.length === 1) {
+            return `${username} likes this story!`;
         }
 
-        return `${this._likes[0]} and ${this._likes.length - 1} others like this story!`
+        return `${username} and ${this._likes.length - 1} others like this story!`;
     }
 
     like(username) {
-        if (this._likes.find(u => u == username)) {
+        if (this._comments.includes(username)) {
             throw new Error(`You can't like the same story twice!`);
         }
 
-        if (username == this.creator) {
+        if (this.creator === username) {
             throw new Error(`You can't like your own story!`);
         }
 
         this._likes.push(username);
-        return `${username} liked ${this.title}!`
+        return `${username} liked {title}!`;
     }
 
     dislike(username) {
-        let user = this._likes.find(u => u == username);
-
-        if (user === undefined) {
+        if (!this._likes.includes(username)) {
             throw new Error(`You can't dislike this story!`);
         }
 
+        this._likes.filter(x => x !== username)
         return `${username} disliked ${this.title}`;
     }
 
-
     comment(username, content, id) {
-        if (!id || (this._comments.find(c => c.id == id)) === undefined) {
-            id = this._comments.length + 1;
-            let comment = {id, username, content, replies: {}};
-            this._comments.push(comment);
+        if (id === undefined || !this._comments.some(c => c.Id === id)) {
+            let newComment = {
+                Id: this._comments.length + 1,
+                Username: username,
+                Content: content,
+                Replies: []
+            };
+
+            this._comments.push(newComment);
             return `${username} commented on ${this.title}`;
         }
 
-        if (this._comments.find(c => c.id == id)) {
-            const commentToReply = this._comments.find(c => Object.values(c)[0] == id);
-            commentToReply.replies[`${id}.${Object.values(commentToReply.replies).length + 1}`] = { id: `${id}.${Object.values(commentToReply.replies).length + 1}`, username, content };
-            return `You replied successfully`;  
+        // check asc order with reply id 1.10 to 1.9
+        let commentToReplyTo = this._comments.find(c => c.Id === id);
+        let replyNextId = commentToReplyTo.Replies.length + 1;
+        let replyId = Number(`${commentToReplyTo.Id}.${replyNextId}`);
+        let reply = {
+            Id: replyId,
+            Username: username,
+            Content: content,
         }
+        commentToReplyTo.Replies.push(reply);
+        return `You replied successfully`;
     }
 
     toString(sortingType) {
-        let result = [`Title: ${this.title}`, `Creator: ${this.creator}`, `Likes: ${this._likes.length}`, 'Comments:',];
-
-        const typesToSort = {
-            'asc': function (comments) {
-                Object.values(comments).forEach((c) => {
-                    result.push(`-- ${c.id}. ${c.username}: ${c.content}`);
-                    Object.values(c.replies).forEach((r) => {
-                        result.push(`--- ${r.id}. ${r.username}: ${r.content}`);
-                    });
-                });
-                return result.join('\n');
-            },
-            'desc': function (comments) {
-                comments.sort((a, b) => b.id - a.id).forEach((o) => {
-                    result.push(`-- ${o.id}. ${o.username}: ${o.content}`);
-
-                    Object.values(o.replies).sort((a, b) => b.id - a.id).forEach(r => {
-                        result.push(`--- ${r.id}. ${r.username}: ${r.content}`);
-                    });
-                });
-                return result.join('\n');
-            },
-            'username': function (comments) {
-                comments.sort((a, b) => a.username.localeCompare(b.username)).forEach(o => {
-                    result.push(`-- ${o.id}. ${o.username}: ${o.content}`);
-
-                    Object.values(o.replies).sort((a, b) => a.username.localeCompare(b.username)).forEach(r => {
-                        result.push(`--- ${r.id}. ${r.username}: ${r.content}`);
-                    });
-                });
-                return result.join('\n');
-            }
+        const sortVersion = {
+            asc: (a, b) => a.Id - b.Id,
+            desc: (a, b) => b.Id - a.Id,
+            username: (a, b) => a.Username.localeCompare(b.Username)
         }
-        return typesToSort[sortingType](this._comments);
+
+        let comments = this._comments.sort(sortVersion[sortingType]);
+        comments.forEach(c => c.Replies.sort(sortVersion[sortingType]));
+
+        let commentsStringArr = [];
+        for (const comment of comments) {
+            let commentString = `-- ${comment.Id}. ${comment.Username}: ${comment.Content}`;
+            let repliesString = comment.Replies
+                .map(r => `--- ${r.Id}. ${r.Username}: ${r.Content}`)
+                .join('\n');
+            repliesString = comment.Replies.length > 0
+                ? `\n${repliesString}`
+                : '';
+            let combinedString = `${commentString}${repliesString}`;
+            commentsStringArr.push(combinedString);
+        }
+
+        let fullCommentsString = this._comments.length > 0
+            ? `\n${commentsStringArr.join('\n')}`
+            : '';
+
+        return `Title: ${this.title}
+Creator: ${this.creator}
+Likes: ${this._likes.length}
+Comments:${fullCommentsString}`;
     }
 }
 
-let art = new Story("My Story", "Anny");
+let art = new Story("My Story", "Anny");
 art.like("John");
 console.log(art.likes);
 art.dislike("John");
 console.log(art.likes);
-art.comment("Sammy", "Some Content");
-console.log(art.comment("Ammy", "New Content"));
+art.comment("Sammy", "Some Content");
+console.log(art.comment("Ammy", "New Content"));
 art.comment("Zane", "Reply", 1);
-art.comment("Jessy", "Nice :)");
+art.comment("Jessy", "Nice :)");
 console.log(art.comment("SAmmy", "Reply@", 1));
 console.log()
 console.log(art.toString('username'));
