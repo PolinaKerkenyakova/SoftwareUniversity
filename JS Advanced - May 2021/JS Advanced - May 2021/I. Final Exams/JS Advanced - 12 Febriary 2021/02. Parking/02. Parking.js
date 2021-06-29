@@ -66,11 +66,10 @@ class Parking {
 
         result.push(`The Parking Lot has ${this.capacity - this.vehicles.length} empty spots left.`);
 
-        this.vehicles.sort((a, b) => {
-            a.carModel.localeCompare(b.carModel);
-        }).forEach(car => {
-            result.push(this.getTemplate(car));
-        })
+        this.vehicles.sort((a, b) => a.carModel.localeCompare(b.carModel))
+            .forEach(car => {
+                result.push(this.getTemplate(car));
+            });
 
         return result.join('\n');
     }
