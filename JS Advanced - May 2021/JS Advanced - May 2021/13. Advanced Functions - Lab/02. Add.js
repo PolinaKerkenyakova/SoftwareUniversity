@@ -1,7 +1,6 @@
 function solution(a) {
-    let sum = a;
     return function calc(b) {
-        sum = a;
+        let sum = a;
         sum += b;
         return sum;
     }
