@@ -4,7 +4,7 @@ function listProcessor(collection) {
     let commands = {
         add: str => result.push(str),
         remove: str => result = result.filter(x => x !== str),
-        print: () => console.log(result.join(', '))
+        print: () => console.log(result.join(','))
     }
 
     collection.forEach(line => {
