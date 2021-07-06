@@ -1,20 +1,27 @@
 function solve() {
+
+    let stopInfoSpan = document.querySelector('#info .info');
     let departBtn = document.querySelector('#depart');
     let arriveBtn = document.querySelector('#arrive');
-    let initialURL = `http://localhost:3030/jsonstore/bus/schedule/${depot}`
+    let stop = {
+        next: 'depot',
+    }
 
     function depart() {
-        fetch(initialURL)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-
-        })
+        fetch(`http://localhost:3030/jsonstore/bus/schedule/${stop.next}`)
+            .then(response => response.json())
+            .then(data => {
+                stop = data;
+                stopInfoSpan.textContent = `Next stop ${stop.name}`;
+                departBtn.disabled = true;
+                arriveBtn.disabled = false;
+            });
     }
 
     function arrive() {
-        console.log('Arrive TODO...');
+        stopInfoSpan.textContent = `Arriving at ${stop.name}`;
+        departBtn.disabled = false;
+        arriveBtn.disabled = true;
     }
 
     return {
