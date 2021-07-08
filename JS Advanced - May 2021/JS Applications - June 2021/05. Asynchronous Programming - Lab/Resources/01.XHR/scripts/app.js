@@ -10,3 +10,12 @@ function loadRepos() {
    httpRequest.open('GET', 'https://api.github.com/users/testnakov/repos');
    httpRequest.send();
 }
+
+
+
+// const loadRepos = async () => {
+//    const response = await fetch('https://api.github.com/users/testnakov/repos');
+//    const data = await response.text();
+
+//    document.querySelector('#res').textContent = data;
+// }
