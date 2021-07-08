@@ -1,15 +1,18 @@
 function loadRepos() {
 	let username = document.querySelector('#username').value;
-	return fetch(`https://api.github.com/users/${username}/repos`)
+	fetch(`https://api.github.com/users/${username}/repos`)
 		.then(response => {
-			return response.json();
+			if (response.ok) {
+				return response.json();
+			} 
+
+			throw new Error(response.status)
 		})
 		.then(data => {
-			// console.log(data)
 			showRepos(data);
 		})
-		.catch(err => {
-			console.log('Err', err)
+		.catch(error => {
+			console.log(error)
 		})
 }
 

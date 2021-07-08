@@ -1,7 +1,9 @@
 function loadCommits() {
     let username = document.querySelector('#username').value;
     let repo = document.querySelector('#repo').value;
-    return fetch(`https://api.github.com/repos/${username}/${repo}/commits`)
+    document.querySelector('#commits').innerHTML = '';
+    
+    fetch(`https://api.github.com/repos/${username}/${repo}/commits`)
         .then(response => {
             if (response.ok) {
                 return response.json();
