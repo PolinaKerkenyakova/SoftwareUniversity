@@ -2,34 +2,30 @@ function attachEvents() {
     document.querySelector('#submit').addEventListener('click', getLocation);
 }
 
-const getLocation = () => {
-    let city = document.querySelector('#location').value;
-    fetch('http://localhost:3030/jsonstore/forecaster/locations')
-        .then(response => response.json())
-        .then(data => {
-            const location = data.find(l => l.name === city)
-            if (location) {
-                getCurrentWeather(location.code);
-                getUpcomingWeather(location.code);
-            } else {
-                throw new Error();
-            }
-        })
-        .catch(error => {
-            
-        });
+const getLocation = async () => {
+    let cityName = document.querySelector('#location').value;
+    const response = await fetch('http://localhost:3030/jsonstore/forecaster/locations');
+    const data = await response.json();
+
+    let location = data.find(l => l.name.toLowerCase() === cityName.toLowerCase());
+
+    getWheatherForecast(location.code);
 }
 
-const getCurrentWeather = (code) => {
-    fetch(`http://localhost:3030/jsonstore/forecaster/today/${code}`)
-        .then(response => response.json())
-        .then(data => weatherHTMLTemplate().currentWeather(data));
-}
+const getWheatherForecast = async (code) => {
+    let [currentResponse, upcomingResponse] = await Promise.all([
+        fetch(`http://localhost:3030/jsonstore/forecaster/today/${code}`),
+        fetch(`http://localhost:3030/jsonstore/forecaster/upcoming/${code}`)
+    ]);
 
-const getUpcomingWeather = (code) => {
-    fetch(`http://localhost:3030/jsonstore/forecaster/upcoming/${code}`)
-        .then(response => response.json())
-        .then(data => weatherHTMLTemplate().upcomingWeather(data));
+    let currentData = await currentResponse;
+    let upcomingData = await upcomingResponse;
+   
+
+    console.log(currentData);
+    console.log(upcomingData);
+    weatherHTMLTemplate().currentWeather(currentData);
+    weatherHTMLTemplate().upcomingWeather(upcomingData);
 }
 
 const weatherHTMLTemplate = () => {

@@ -18,8 +18,8 @@ body {
   flex-wrap: wrap;
 }
 #main {
-  background: url(background.png) no-repeat center center;
-  background-size: cover;
+  /* background: url(background.png) no-repeat center center; */
+  /* background-size: cover; */
   margin-top: 1%;
 }
 
@@ -70,14 +70,24 @@ button {
   margin: 0 auto;
 }
 
-input[name="user3Username"],
+/* input[name="user3Username"],
 input[name="user2Username"],
 input[name="user1Username"] {
   display: inline-block;
   width: 100%;
+} */
+
+input[type="text"] {
+  display: inline-block;
+  width: 100%;
 }
 
-#user1HiddenFields input,
+input[type="radio"] {
+  margin-left: 3px;
+  margin-right: 8px;
+}
+
+/* #user1HiddenFields input,
 #user2HiddenFields input,
 #user3HiddenFields input {
   width: 100%;
@@ -86,5 +96,13 @@ input[name="user1Username"] {
 #user1HiddenFields,
 #user2HiddenFields,
 #user3HiddenFields {
+  display: none;
+} */
+
+#hiddenFields input {
+  width: 100%;
+}
+
+#hiddenFields {
   display: none;
 }
