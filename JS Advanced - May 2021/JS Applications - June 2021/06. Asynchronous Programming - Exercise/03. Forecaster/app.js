@@ -3,27 +3,48 @@ function attachEvents() {
 }
 
 const getLocation = async () => {
-    let cityName = document.querySelector('#location').value;
-    const response = await fetch('http://localhost:3030/jsonstore/forecaster/locations');
-    const data = await response.json();
+    document.querySelector('#current').innerHTML = '<div class="label">Current conditions</div>';
+    document.querySelector('#upcoming').innerHTML = '<div class="label">Three-day forecast</div>';
+  
+    const error = document.querySelector('.error');
+    if (error) {
+        error.remove();
+    }
 
-    let location = data.find(l => l.name.toLowerCase() === cityName.toLowerCase());
+    try {
+        let cityName = document.querySelector('#location').value;
+        const response = await fetch('http://localhost:3030/jsonstore/forecaster/locations');
 
-    getWheatherForecast(location.code);
+        if (!response.ok) {
+            throw new Error('Error');
+        }
+
+        const data = await response.json();
+        let location = data.find(l => l.name.toLowerCase() === cityName.toLowerCase());
+        getWheatherForecast(location.code);
+    } catch (error) {
+        const sectionForecast = document.querySelector('#forecast');
+        sectionForecast.style.display = 'block';
+        const div = document.createElement('div');
+        div.classList.add('label', 'error');
+        div.textContent = 'Error';
+        div.style.textAlign = 'center';
+        sectionForecast.appendChild(div)
+    }
 }
 
 const getWheatherForecast = async (code) => {
-    let [currentResponse, upcomingResponse] = await Promise.all([
+
+    const [currentResponse, upcomingResponse] = await Promise.all([
         fetch(`http://localhost:3030/jsonstore/forecaster/today/${code}`),
         fetch(`http://localhost:3030/jsonstore/forecaster/upcoming/${code}`)
     ]);
 
-    let currentData = await currentResponse;
-    let upcomingData = await upcomingResponse;
-   
+    const [currentData, upcomingData] = await Promise.all([
+        currentResponse.json(),
+        upcomingResponse.json()
+    ]);
 
-    console.log(currentData);
-    console.log(upcomingData);
     weatherHTMLTemplate().currentWeather(currentData);
     weatherHTMLTemplate().upcomingWeather(upcomingData);
 }
