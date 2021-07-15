@@ -1,66 +1,67 @@
-const addNewStudent = () => {
-    document.querySelector('#results tbody').innerHTML = '';
-    loadStudents();
-    document.querySelector('#form').addEventListener('submit', createNewStudent);
-}
+document.querySelector('#form').addEventListener('submit', addStudent);
 
-const createNewStudent = async (e) => {
+const tBody = document.querySelector('#results tbody');
+
+async function addStudent(e) {
     e.preventDefault();
 
     try {
-        const data = new FormData(e.target);
-        const firstName = data.get('firstName');
-        const lastName = data.get('lastName');
-        const facultyNumber = data.get('facultyNumber');
-        const grade = data.get('grade');
+        const formData = new FormData(e.target);
 
-        if (!data || !firstName || !facultyNumber || !grade) {
-            throw new Error('Error');
+        const firstName = formData.get('firstName');
+        const lastName = formData.get('lastName');
+        const facultyNumber = formData.get('facultyNumber');
+        const grade = formData.get('grade');
+
+        if (!firstName || !lastName || !facultyNumber || !grade) {
+            throw new Error('Please, fill all fields!')
         }
 
-        const credentials = { firstName, lastName, facultyNumber, grade };
-        await fetch('http://localhost:3030/jsonstore/collections/students', {
+        const response = await fetch('http://localhost:3030/jsonstore/collections/students', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials)
+            body: JSON.stringify({ firstName, lastName, facultyNumber, grade })
         });
-    } catch {
-        alert('Invalid input!')
+
+        const student = await response.json();
+        const tr = createStudent(student);
+        tBody.appendChild(tr);
+
+        e.target.reset();
+    } catch (error) {
+        alert(error.message)
     }
-
-    document.querySelector('#results tbody').innerHTML = '';
-    loadStudents();
-    e.target.reset();
 }
 
-const loadStudents = async () => {
-    let response = await fetch('http://localhost:3030/jsonstore/collections/students');
-    let data = await response.json();
+async function loadAllStudents() {
+    const response = await fetch('http://localhost:3030/jsonstore/collections/students');
+    const students = await response.json();
 
-    const resulTBody = document.querySelector('#results tbody');
-    Object.values(data).map(createTdElements).forEach(tr => resulTBody.appendChild(tr));
+    Object.values(students).map(createStudent).forEach(s => tBody.appendChild(s));
 }
 
-const createTdElements = (student) => {
+loadAllStudents();
+
+function createStudent(student) {
+    console.log(student);
     const tr = document.createElement('tr');
 
-    const tdFirstName = document.createElement('td');
-    tdFirstName.textContent = student.firstName;
+    const nameTd = document.createElement('td');
+    nameTd.textContent = student.firstName;
 
-    const tdLastName = document.createElement('td');
-    tdLastName.textContent = student.lastName;
+    const lastNameTd = document.createElement('td');
+    lastNameTd.textContent = student.lastName;
 
-    const tdFacultyNumber = document.createElement('td');
-    tdFacultyNumber.textContent = student.facultyNumber;
+    const facultyNumberTd = document.createElement('td');
+    facultyNumberTd.textContent = student.facultyNumber;
 
-    const tdGrade = document.createElement('td');
-    tdGrade.textContent = student.grade;
+    const gradeTd = document.createElement('td');
+    gradeTd.textContent = student.grade;
 
-    tr.appendChild(tdFirstName);
-    tr.appendChild(tdLastName);
-    tr.appendChild(tdFacultyNumber);
-    tr.appendChild(tdGrade);
+    tr.appendChild(nameTd);
+    tr.appendChild(lastNameTd);
+    tr.appendChild(facultyNumberTd);
+    tr.appendChild(gradeTd);
+
     return tr;
 }
-
-addNewStudent();

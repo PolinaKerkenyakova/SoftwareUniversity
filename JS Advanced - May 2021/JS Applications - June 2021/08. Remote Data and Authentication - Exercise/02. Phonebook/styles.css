@@ -1,23 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-body{
-  font-family: 'Open Sans',serif;
-}
-
-.container {
-  text-align: center;
-}
-.contact {
-  position: relative;
-  left: -2%;
-}
-.contact label:first-child{
-  display: block;
-}
-.notification {
-  color: red;
-  height: 10px;
-}
-
 input[type=text] {
 
   padding: 12px 20px;
@@ -26,29 +7,6 @@ input[type=text] {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-}
-table{
-  border:1px solid #234465;
-  margin: 0 auto;
-  width: 40%;
-  border-radius: 4px;
-}
-
-table td {
-  border-top:1px solid black;
-}
-table tbody td{
-  text-align: center;
-
-  padding: 0.5%;
-}
-
-table button:hover{
-  text-decoration: underline;
-}
-
-table tfoot button {
-  padding: 14px 40px;
 }
 
 button {
@@ -65,3 +23,6 @@ button:hover {
   background-color: #45a049;
 }
 
+body{
+   font-family: 'Open Sans',serif;
+}

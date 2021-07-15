@@ -1,65 +1,56 @@
-const solve = () => {
-    document.querySelector('#btnLoad').addEventListener('click', loadPhonebook);
-    document.querySelector('#btnCreate').addEventListener('click', createContact);
-}
+document.querySelector('#btnLoad').addEventListener('click', loadAllContacts);
+document.querySelector('#btnCreate').addEventListener('click', addContact);
 
-const loadPhonebook = async () => {
+async function loadAllContacts() {
     const response = await fetch('http://localhost:3030/jsonstore/phonebook');
     const contacts = await response.json();
-    document.querySelector('#phonebook').innerHTML = '';
 
-    const phonebook = document.querySelector('#phonebook')
-    Object.entries(contacts).map(createLiElements).forEach(tr => phonebook.appendChild(tr));
+    const phoneBookUl = document.querySelector('#phonebook');
+    phoneBookUl.querySelectorAll('li').forEach(li => li.remove());
+    Object.values(contacts).map(createContactLi).forEach(li => phoneBookUl.appendChild(li));
 }
 
-const createLiElements = ([id, contact]) => {
-    const tr = document.createElement('tr');
+function createContactLi(contact) {
+    const li = document.createElement('li');
+    li.textContent = `${contact.person}: ${contact.phone}`;
+    li.dataset.id = contact._id;
 
-    const tdName = document.createElement('td');
-    tdName.textContent = contact.person;
-
-    const tdPhone = document.createElement('td');
-    tdPhone.textContent = contact.phone;
-
-    const tdDeleteBtn = document.createElement('td');
     const deleteBtn = document.createElement('button');
-    deleteBtn.setAttribute('data-id', id);
     deleteBtn.textContent = 'Delete';
     deleteBtn.addEventListener('click', deleteContact);
-    tdDeleteBtn.appendChild(deleteBtn);
 
-    tr.appendChild(tdName);
-    tr.appendChild(tdPhone);
-    tr.appendChild(deleteBtn);
+    li.appendChild(deleteBtn);
 
-    return tr;
+    return li;
 }
 
-const createContact = async () => {
-    const person = document.querySelector('#person');
-    const phone = document.querySelector('#phone');
-    const data = { person: person.value, phone: phone.value };
+async function deleteContact(e) {
+    const li = e.target.closest('li')
+    const id = e.target.closest('li').dataset.id;
 
-    person.value = '';
-    phone.value = '';
-
-    fetch('http://localhost:3030/jsonstore/phonebook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'aplication/json' },
-        body: JSON.stringify(data)
-    });
-
-    loadPhonebook();
-}
-
-const deleteContact = async (e) => {
-    let id = e.target.getAttribute('data-id');
-
-    await fetch(`http://localhost:3030/jsonstore/phonebook/${id}`, {
+    const response = await fetch(`http://localhost:3030/jsonstore/phonebook/${id}`, {
         method: 'DELETE'
     });
 
-    loadPhonebook();
+    if (response.ok) {
+        li.remove();
+    }
 }
 
-solve();
+async function addContact() {
+    const person = document.querySelector('#person');
+    const phone = document.querySelector('#phone');
+
+    let response = await fetch('http://localhost:3030/jsonstore/phonebook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ person: person.value, phone: phone.value })
+    });
+
+    const contact = await response.json();
+    const li = createContactLi(contact);
+    document.querySelector('#phonebook').appendChild(li);
+
+    person.value = '';
+    phone.value = '';
+}
