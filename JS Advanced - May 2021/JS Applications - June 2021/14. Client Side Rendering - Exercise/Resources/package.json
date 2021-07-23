@@ -1,0 +1,18 @@
+{
+  "name": "resources",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client-server": "http-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lit-html": "^1.4.1"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
