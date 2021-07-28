@@ -10,10 +10,11 @@ const dashboardTemplate = (data) => html`
         </div>
     </div>
     <div class="row space-top">
-        ${data.map(itemTemplate)}    
+        ${data.map(itemTemplate)}
     </div>`;
 
 export async function dashboardPage(ctx) {
-    const data = await getFurniture();
-    ctx.render(dashboardTemplate(data))
+    const data = await getFurniture(searchParam);
+
+    ctx.render(dashboardTemplate(data, searchParam, onSearch))
 }
