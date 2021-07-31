@@ -7,27 +7,18 @@ export const login = httpRequests.login;
 export const register = httpRequests.register;
 export const logout = httpRequests.logout;
 
-export async function getFurniture() {
-    return await httpRequests.get(`${host}/data/catalog`);
+export async function getAllCards() {
+    return await httpRequests.get(`${host}/data/ideas?select=_id%2Ctitle%2Cimg&sortBy=_createdOn%20desc`);
 }
 
-export async function getFurnitureById(id) {
-    return await httpRequests.get(`${host}/data/catalog/${id}`)
+export async function getCardById(id) {
+    return await httpRequests.get(`${host}/data/ideas/${id}`)
 }
 
-export async function getMyFurniture() {
-    const userId = sessionStorage.getItem('userId')
-    return await httpRequests.get(`${host}/data/catalog?where=_ownerId%3D%22${userId}%22`)
+export async function createNewIdea(data) {
+    return await httpRequests.post(host + '/data/ideas', data);
 }
 
-export async function createNewFurniture(data) {
-    return await httpRequests.post(`${host}/data/catalog`, data);
-}
-
-export async function updateFurniture(id, data) {
-    return await httpRequests.put(`${host}/data/catalog/${id}`, data)
-}
-
-export async function deleteFurniture(id) {
-    return await httpRequests.del(`${host}/data/catalog/${id}`)
+export async function deleteIdea(id) {
+    return await httpRequests.del(`${host}/data/ideas/${id}`)
 }

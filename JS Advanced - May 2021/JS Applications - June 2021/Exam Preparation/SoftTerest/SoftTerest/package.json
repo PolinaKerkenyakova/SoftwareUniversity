@@ -10,12 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^0.12.3",
-    "page.js": "^4.13.3"
+    "lit-html": "^1.4.1",
+    "page": "^1.11.6"
   },
   "devDependencies": {
-    "chai": "^4.3.3",
-    "mocha": "^8.3.0",
-    "playwright-chromium": "^1.9.1"
+    "chai": "4.3.3",
+    "mocha": "8.3.0",
+    "http-server": "^0.12.3",
+    "playwright-chromium": "1.9.1"
   }
 }
