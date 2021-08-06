@@ -16,7 +16,7 @@ export async function getCardById(id) {
 }
 
 export async function createNewIdea(data) {
-    return await httpRequests.post(host + '/data/ideas', data);
+    return await httpRequests.post(host + '/data/ideas', data)
 }
 
 export async function deleteIdea(id) {

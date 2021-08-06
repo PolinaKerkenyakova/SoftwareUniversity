@@ -46,21 +46,20 @@ export function createPage(ctx) {
         const description = formData.get('description');
         const imageURL = formData.get('imageURL');
 
-        if (title.length <= 6) {
-            return alert('Title should be at least 6 chars!')
-        }
+        // if (title.length <= 6) {
+        //     return alert('Title should be at least 6 chars!')
+        // }
 
-        if (description.length <= 10) {
-            return alert('Description should be at least 10 chars!')
-        }
+        // if (description.length <= 10) {
+        //     return alert('Description should be at least 10 chars!')
+        // }
 
-        if (imageURL.length <= 5) {
-            return alert('Image URL should be at least 10 chars!')
-        }
+        // if (imageURL.length <= 5) {
+        //     return alert('Image URL should be at least 10 chars!')
+        // }
 
-        await createNewIdea({ title, description, imageURL });
-        // e.target.reset();
+        await createNewIdea({ title, description, img: imageURL });
+        e.target.reset();
         ctx.page.redirect('/dashboard');
     }
-
 }

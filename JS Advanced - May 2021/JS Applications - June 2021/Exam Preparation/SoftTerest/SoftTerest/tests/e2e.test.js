@@ -3,7 +3,7 @@ const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
-const DEBUG = true;
+const DEBUG = false;
 
 const mockData = require('./mock-data.json');
 const endpoints = {
@@ -41,7 +41,7 @@ describe('E2E tests', function () {
 
     before(async () => {
         if (DEBUG) {
-            browser = await chromium.launch({ headless: false, slowMo: 2000 });
+            browser = await chromium.launch({ headless: false, slowMo: 3000 });
         } else {
             browser = await chromium.launch();
         }
@@ -194,7 +194,7 @@ describe('E2E tests', function () {
             ]);
         });
 
-        it.only('create makes correct API call for logged in user', async () => {
+        it('create makes correct API call for logged in user', async () => {
             const endpoint = '**' + endpoints.create;
             const mock = mockData.details;
 
