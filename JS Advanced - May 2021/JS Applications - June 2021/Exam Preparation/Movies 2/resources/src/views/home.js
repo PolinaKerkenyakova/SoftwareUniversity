@@ -39,6 +39,7 @@ ${isLoggedUser ? html`<h1 class="text-center">Movies</h1>
 
 export async function homePage(ctx) {
     const userId = sessionStorage.getItem('userId');
-    const movies = await getMovies();
+    let movies = await getMovies();
+    console.log(movies);
     ctx.render(homeTemplate(userId !== null, movies));
 }

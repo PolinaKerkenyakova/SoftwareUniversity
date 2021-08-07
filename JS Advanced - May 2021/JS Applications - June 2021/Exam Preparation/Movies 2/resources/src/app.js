@@ -6,6 +6,7 @@ import { homePage } from './views/home.js';
 import { loginPage } from './views/login.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
+import { editPage } from './views/edit.js';
 
 const main = document.querySelector('main');
 const nav = document.querySelector('#container nav');
@@ -15,6 +16,7 @@ page('/index.html', decorateContext, homePage);
 page('/login', decorateContext, loginPage);
 page('/create', decorateContext, createPage);
 page('/details/:id', decorateContext, detailsPage);
+page('/edit/:id', decorateContext, editPage);
 
 setNav();
 page.start();

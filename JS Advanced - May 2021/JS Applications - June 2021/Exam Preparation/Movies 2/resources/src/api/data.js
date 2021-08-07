@@ -24,10 +24,10 @@ export async function createNewMovie(data) {
     return await httpRequests.post(`${host}/data/movies`, data);
 }
 
-// export async function updateFurniture(id, data) {
-//     return await httpRequests.put(`${host}/data/catalog/${id}`, data)
-// }
+export async function updateMovie(id, data) {
+    return await httpRequests.put(`${host}/data/movies/${id}`, data)
+}
 
-// export async function deleteFurniture(id) {
-//     return await httpRequests.del(`${host}/data/catalog/${id}`)
-// }
+export async function deleteMovie(id) {
+    return await httpRequests.del(`${host}/data/movies/${id}`)
+} 

@@ -34,7 +34,7 @@ export function createPage(ctx) {
             return alert('All fields are required!')
         }
 
-        await createNewMovie({ title, description, img });
+        await createNewMovie({ title, description, img, usersLiked: [] });
         ctx.page.redirect('/');
     }
 }
