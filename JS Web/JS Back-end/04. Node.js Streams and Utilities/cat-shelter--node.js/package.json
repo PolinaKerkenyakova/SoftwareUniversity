@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "node ./index.js",
+    "nodemon": "nodemon ./index.js"
   },
   "keywords": [],
   "author": "Polina Kerkenyakova",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "uuid": "^8.3.2"
   }
 }

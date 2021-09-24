@@ -1,11 +1,12 @@
 const http = require('http');
-const port = 3000;
+const port = process.env.PORT || 3000;
+const handlers = require('./handlers')
 
 http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-Type': 'text/plain'
-    });
 
-    res.write('Hello from Node.js');
-    res.end();
+    handlers.forEach(handler => {
+        if(!handler(res, req)) {
+            return;
+        }
+    });
 }).listen(port);
