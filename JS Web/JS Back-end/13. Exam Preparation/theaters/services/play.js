@@ -2,13 +2,21 @@ const Play = require('../models/Play');
 
 async function getAllPlays() {
 
+    return Play.find({ public: true }).sort({ createdAt: -1 }).lean();
 }
 
 async function getPlayById(id) {
 
+    return Play.find({ id }).populate('usersLikes').lean();
 }
 
 async function createPlay(playData) {
+    const pattern = new RegExp(`^${playData.title}$`, 'i');
+    const existing = await Play.find({ title: { $regex: pattern } });
+
+    if (existing) {
+        throw new Error('Play with this name already exists');
+    }
 
     const play = new Play(playData);
     await play.save();
