@@ -9,26 +9,24 @@
   <body>
 
     <div id="container">
-
       {{#if errors}}
         <div>
           <div class="notification loadingBox">
+            Loading...
           </div>
           <div class="notification infoBox">
             <span>Info</span>
           </div>
           <div class="notification errorBox">
-            {{#each errors}}
-              <p>
-                <span>{{this}}</span>
-              </p>
-            {{/each}}
+            <span>Error</span>
           </div>
         </div>
       {{/if}}
 
-      {{#if user}}
-        <nav>
+
+      <nav>
+
+        {{#if user}}
           <div class="left-container">
             <ul>
               <li><a href="/">Home</a></li>
@@ -39,9 +37,7 @@
             <a href="/user" class="log-out">{{user.username}}</a>
             <a href="/auth/logout" class="log-out">Logout</a>
           </div>
-        </nav>
-      {{else}}
-        <nav>
+        {{else}}
           <div class="left-container">
             <ul>
               <li><a href="/">Home</a></li>
@@ -49,8 +45,9 @@
               <li><a href="/auth/register">Register</a></li>
             </ul>
           </div>
-        </nav>
-      {{/if}}
+        {{/if}}
+
+      </nav>
 
       {{{body}}}
 

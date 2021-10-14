@@ -1,8 +1,7 @@
 const router = require('express').Router();
 
-router.get('/', async (req, res) => {
-    const hotels = await req.storage.getAllHotels();
-    res.render('home/home', { hotels });
+router.get('/', (req, res) => {
+    res.render('home/home');
 });
 
 module.exports = router;

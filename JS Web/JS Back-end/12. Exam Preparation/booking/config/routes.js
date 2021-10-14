@@ -1,11 +1,8 @@
+const homeController = require('../controllers/homeController.js');
 
-const homeController = require('../controllers/homeController');
-const authController = require('../controllers/authController');
-const hotelController = require('../controllers/hotelController.js')
-
+const authController = require('../controllers/authController.js');
 
 module.exports = (app) => {
     app.use('/', homeController);
-    app.use('/auth', authController)
-    app.use('/hotels', hotelController)
-}
+    app.use('/auth', authController);
+};

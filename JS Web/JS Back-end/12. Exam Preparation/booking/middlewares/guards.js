@@ -1,7 +1,6 @@
 function isUser() {
     return (req, res, next) => {
-        console.log(res.locals.user)
-        if (res.locals.user) {
+        if (req.user) {
             next();
         } else {
             res.redirect('/auth/login');
@@ -11,13 +10,15 @@ function isUser() {
 
 function isGuest() {
     return (req, res, next) => {
-        if (!res.locals.user) {
+
+        if (!req.user) {
             next();
         } else {
             res.redirect('/');
         }
     }
 }
+
 
 module.exports = {
     isUser,

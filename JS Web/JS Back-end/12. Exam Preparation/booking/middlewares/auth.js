@@ -1,23 +1,21 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { TOKEN_SECRET, COOKIE_NAME } = require('../config')
-const userService = require('../services/user');
+const { TOKEN_SECRET, COOKIE_NAME } = require('../config/index.js');
+const userService = require('../services/user.js');
 
 module.exports = () => (req, res, next) => {
 
     if (parseToken(req, res)) {
         req.auth = {
-            async register(username, email, password) {
-                const token = await register(username, email, password);
+            async register(username, password) {
+                const token = await register(username, password);
                 res.cookie(COOKIE_NAME, token);
             },
-
             async login(username, password) {
                 const token = await login(username, password);
                 res.cookie(COOKIE_NAME, token);
             },
-
             logout() {
                 res.clearCookie(COOKIE_NAME);
             }
@@ -25,22 +23,21 @@ module.exports = () => (req, res, next) => {
 
         next();
     }
-}
+};
 
-async function register(username, email, password) {
-    const existingUsername = await userService.getUserByUsername(username);
-    const existingEmail = await userService.getUserByEmail(email);
+async function register(username, password) {
+    // TODO adapt parameters to project requirements
+    // TODO extra validations
 
-    if (existingUsername ) {
-        throw new Error('Username is taken!')
-    }
+    const existing = await userService.getUserByUsername(username);
 
-    if (existingEmail ) {
-        throw new Error('Email is taken!')
+    if (existing) {
+        throw new Error('Username is taken!');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userService.createUser(username, email, hashedPassword)
+
+    const user = await userService.createUser(username, hashedPassword);
 
     return generateToken(user);
 }
@@ -55,36 +52,42 @@ async function login(username, password) {
     const hasMatch = await bcrypt.compare(password, user.hashedPassword);
 
     if (!hasMatch) {
-        throw new Error('Incorrect password!');
+        throw new Error('Incorrect password');
     }
 
     return generateToken(user);
 }
 
+
+function logout() {
+
+}
+
+
 function generateToken(userData) {
+
     return jwt.sign({
         _id: userData._id,
-        username: userData.username,
-        email: userData.email
+        username: userData.username
     }, TOKEN_SECRET);
+
 }
 
 function parseToken(req, res) {
-
     const token = req.cookies[COOKIE_NAME];
 
     if (token) {
         try {
             const userData = jwt.verify(token, TOKEN_SECRET);
-            res.user = userData;
+            req.user = userData;
             res.locals.user = userData;
         } catch (err) {
-            req.clearCookie(COOKIE_NAME);
+            res.clearCookie(COOKIE_NAME);
             res.redirect('/auth/login');
-
+    
             return false;
         }
     }
-
+    
     return true;
 }
