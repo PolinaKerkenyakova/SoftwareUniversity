@@ -44,7 +44,7 @@ router.get('/login', isGuest(), (req, res) => {
 router.post('/login', isGuest(), async (req, res) => {
     try {
 
-        await req.auth.login(req.body.username, req.body.passowrd);
+        await req.auth.login(req.body.username, req.body.password);
         res.redirect('/');
 
     } catch (err) {
