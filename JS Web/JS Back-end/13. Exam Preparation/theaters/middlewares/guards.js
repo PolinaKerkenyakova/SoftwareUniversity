@@ -10,6 +10,7 @@ function isUser() {
 
 function isGuest() {
     return (req, res, next) => {
+
         if (!req.user) {
             next();
         } else {
@@ -17,6 +18,7 @@ function isGuest() {
         }
     }
 }
+
 
 module.exports = {
     isUser,

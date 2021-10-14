@@ -1,14 +1,13 @@
+const hbs = require('express-handlebars');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const hbs = require('express-handlebars');
-
-const authMiddleware = require('../middlewares/auth');
-const storageMiddleware = require('../middlewares/storage');
+const authMiddleware = require('../middlewares/auth.js')
 
 module.exports = (app) => {
     app.engine('hbs', hbs({
         extname: 'hbs',
     }));
+
     app.set('view engine', 'hbs');
 
     app.use('/static', express.static('static'));
@@ -21,12 +20,11 @@ module.exports = (app) => {
             console.log('>>>', req.method, req.url);
 
             if (req.user) {
-                console.log('Known user', req.user.username);
+                console.log('Known user', req.user.username)
             }
         }
 
         next();
     });
-
-    app.use(storageMiddleware());
-};
+    // To do  - add storage and auth middlewares
+}
