@@ -1,7 +1,8 @@
 const hbs = require('express-handlebars');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const authMiddleware = require('../middlewares/auth.js')
+const authMiddleware = require('../middlewares/auth.js');
+const storageMiddleware = require('../middlewares/storage.js');
 
 module.exports = (app) => {
     app.engine('hbs', hbs({
@@ -27,4 +28,5 @@ module.exports = (app) => {
         next();
     });
     // To do  - add storage and auth middlewares
+    app.use(storageMiddleware());
 }
