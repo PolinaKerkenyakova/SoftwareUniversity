@@ -3,19 +3,25 @@ const { body, validationResult } = require('express-validator');
 const { isGuest } = require('../middlewares/guards.js');
 
 router.get('/register', isGuest(), (req, res) => {
-    res.render('user/register');
+    res.render('register');
 });
 
 router.post('/register',
     isGuest(),
-    // body('username').isLength({ min: 2 }), //TODO change according to the requirements
+    body('username')
+        .isLength({ min: 3 }).withMessage('Username should be at least 3 chars long').bail()
+        .isAlphanumeric().withMessage('Username should only contain english letters and digits'),
+    body('password')
+        .isLength({ min: 3 }).withMessage('Password should be at least 3 chars long').bail()
+        .isAlphanumeric().withMessage('Password should only contain english letters and digits'),
+    //TODO change according to the requirements
     async (req, res) => {
 
         const { errors } = validationResult(req);
 
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                throw new Error(Object.values(errors).map(e => e.msg).join('\n'));
                 // TODO improve error messages
             }
 
@@ -24,27 +30,26 @@ router.post('/register',
             res.redirect('/');
             // TODO change redirect location
         } catch (err) {
-            console.log(err);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
                     username: req.body.username,
                 }
             }
-            res.render('user/register', ctx);
+            res.render('register', ctx);
         }
     }
 );
 
 
 router.get('/login', isGuest(), (req, res) => {
-    res.render('user/login');
+    res.render('login');
 });
 
 router.post('/login', isGuest(), async (req, res) => {
     try {
 
-        await req.auth.login(req.body.username, req.body.passowrd);
+        await req.auth.login(req.body.username, req.body.password);
         res.redirect('/');
 
     } catch (err) {
@@ -56,7 +61,7 @@ router.post('/login', isGuest(), async (req, res) => {
             }
         };
 
-        res.render('user/login', ctx);
+        res.render('login', ctx);
     }
 });
 

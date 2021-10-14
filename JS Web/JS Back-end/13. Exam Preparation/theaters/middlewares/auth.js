@@ -55,6 +55,7 @@ async function login(username, password) {
         throw new Error('Incorrect password');
     }
 
+    console.log(user);
     return generateToken(user);
 }
 
