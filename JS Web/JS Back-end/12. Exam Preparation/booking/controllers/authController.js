@@ -8,27 +8,39 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
     isGuest(),
-    // body('username').isLength({ min: 2 }), //TODO change according to the requirements
+     //TODO change according to the requirements
+    body('email', 'Invalid email!').isEmail(),
+    body('password')
+    .isLength({min:2}).withMessage('Password should be at least 2 chars long')
+    .matches(/[a-zA-Z0-9]/).withMessage('Password may contain only english letters and numbers'),
+    body('rePass').custom((value, {req}) => {
+        if (value != req.body.password) {
+            throw new Error('Passwords don\'t match')
+        }
+        return true;
+    }),
     async (req, res) => {
 
         const { errors } = validationResult(req);
 
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                const message = errors.map(e => e.msg).join('\n');
+                throw new Error(message);
                 // TODO improve error messages
             }
 
-            await req.auth.register(req.body.username, req.body.password);
+            await req.auth.register(req.body.username, req.body.email, req.body.password);
 
             res.redirect('/');
             // TODO change redirect location
         } catch (err) {
             console.log(err);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
                     username: req.body.username,
+                    email: req.body.email
                 }
             }
             res.render('user/register', ctx);

@@ -1,7 +1,8 @@
 const hbs = require('express-handlebars');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const authMiddleware = require('../middlewares/auth.js')
+const authMiddleware = require('../middlewares/auth.js');
+const storageMiddleware = require('../middlewares/storage.js');
 
 module.exports = (app) => {
     app.engine('hbs', hbs({
@@ -14,6 +15,7 @@ module.exports = (app) => {
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
     app.use(authMiddleware());
+    app.use(storageMiddleware());
 
     app.use((req, res, next) => {
         if (!req.url.includes('favicon')) {
