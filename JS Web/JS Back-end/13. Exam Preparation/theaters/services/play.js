@@ -5,8 +5,7 @@ async function getAllPlays() {
 }
 
 async function getPlayById(id) {
-    // return Play.findById(id).populate('usersLiked').lean();
-    return Play.findById(id);
+    return Play.findById(id).populate('usersLiked').lean();
 }
 
 async function createPlay(playData) {
@@ -24,11 +23,26 @@ async function createPlay(playData) {
 }
 
 async function editPlay(id, playData) {
+    const play = await Play.findById(id);
 
+    play.title = playData.title;
+    play.description = playData.description;
+    play.imageUrl = playData.imageUrl;
+    play.public = Boolean(playData.public);
+
+    return await play.save();
+    
 }
 
 async function deletePlay(id) {
+    return Play.findByIdAndDelete(id);
+}
 
+async function likePlay(playId, userId) {
+    const play = await Play.findById(playId);
+
+    play.usersLiked.push(userId);
+    return play.save();
 }
 
 module.exports = {
@@ -36,5 +50,6 @@ module.exports = {
     getPlayById,
     createPlay,
     editPlay,
-    deletePlay
+    deletePlay,
+    likePlay
 }
