@@ -1,7 +1,14 @@
 const Play = require('../models/Play.js');
 
-async function getAllPlays() {
-    return Play.find({ public: true }).sort({ createdAt: -1 }).lean();
+async function getAllPlays(orderBy) {
+
+    let sort = { createdAt: -1 };
+
+    if (orderBy == 'likes') {
+        sort = { usersLiked: 'desc' }
+    }
+
+    return Play.find({ public: true }).sort(sort).lean();
 }
 
 async function getPlayById(id) {
@@ -31,7 +38,7 @@ async function editPlay(id, playData) {
     play.public = Boolean(playData.public);
 
     return await play.save();
-    
+
 }
 
 async function deletePlay(id) {
