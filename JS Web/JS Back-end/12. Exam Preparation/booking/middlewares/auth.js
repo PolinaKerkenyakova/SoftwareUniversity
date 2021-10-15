@@ -49,7 +49,7 @@ async function login(username, password) {
     const user = await userService.getUserByUsername(username);
 
     if (!user) {
-        throw new Error('No such user')
+        throw new Error('No such user');
     }
 
     const hasMatch = await bcrypt.compare(password, user.hashedPassword);
@@ -59,11 +59,6 @@ async function login(username, password) {
     }
 
     return generateToken(user);
-}
-
-
-function logout() {
-
 }
 
 
