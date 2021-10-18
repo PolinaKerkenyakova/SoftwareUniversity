@@ -25,7 +25,7 @@ router.post('/create', isUser(),
                 city: req.body.city,
                 homeImage: req.body.homeImage,
                 description: req.body.description,
-                availablePieces: req.body.availablePieces,
+                availablePieces: Number(req.body.availablePieces),
                 owner: req.user._id
             }
 
@@ -47,7 +47,7 @@ router.post('/create', isUser(),
                     city: req.body.city,
                     homeImage: req.body.homeImage,
                     description: req.body.description,
-                    availablePieces: req.body.availablePieces
+                    availablePieces: Number(req.body.availablePieces)
                 }
             }
 
