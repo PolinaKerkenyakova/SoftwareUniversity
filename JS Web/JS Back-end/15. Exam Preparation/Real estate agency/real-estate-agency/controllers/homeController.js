@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    res.render('home')
+router.get('/', async (req, res) => {
+    const housings = await req.storage.getLastThreeHousings();
+
+    res.render('home', { housings });
 });
 
 module.exports = router;

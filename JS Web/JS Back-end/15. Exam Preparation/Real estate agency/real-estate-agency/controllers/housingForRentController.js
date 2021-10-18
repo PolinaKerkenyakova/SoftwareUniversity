@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    res.render('aprt-for-rent');
+router.get('/', async (req, res) => {
+    const housings = await req.storage.getAllHousings();
+
+    res.render('aprt-for-rent', { housings });
 });
 
 module.exports = router;
