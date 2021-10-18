@@ -15,7 +15,7 @@ router.post('/register',
 
         try {
             if (errors.length > 0) {
-                throw new Error('Validation error');
+                throw new Error(Object.values(errors).map(e => e.msg).join('\n'));
                 // TODO improve error messages
             }
 
@@ -26,7 +26,7 @@ router.post('/register',
         } catch (err) {
             console.log(err);
             const ctx = {
-                errors,
+                errors: err.message.split('\n'),
                 userData: {
                     username: req.body.username,
                 }
@@ -48,9 +48,17 @@ router.post('/login', isGuest(), async (req, res) => {
         res.redirect('/');
 
     } catch (err) {
+
         console.log(err.message);
+
+        let errors = [err.message];
+
+        if (err.type == 'credential') {
+            errors = ['Incorrect username or password'];
+        }
+
         const ctx = {
-            errors: [err.message],
+            errors,
             userData: {
                 username: req.body.username,
             }
