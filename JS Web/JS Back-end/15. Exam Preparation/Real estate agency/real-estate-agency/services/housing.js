@@ -32,9 +32,15 @@ async function deleteHousingById(id) {
 }
 
 async function editHousing(id, housingData) {
-    const housing = await Housing.findById(id);
+    let housing = await Housing.findById(id);
 
-    housing = housingData;
+    housing.name = housingData.name;
+    housing.type = housingData.type;
+    housing.year = housingData.year;
+    housing.city = housingData.city;
+    housing.homeImage = housingData.homeImage;
+    housing.description = housingData.description;
+    housing.availablePieces = housingData.availablePieces;
     housing.save();
 }
 

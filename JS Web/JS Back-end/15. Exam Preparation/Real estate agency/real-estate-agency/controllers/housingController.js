@@ -83,7 +83,6 @@ router.get('/edit/:id', isUser(), async (req, res) => {
 
     try {
         const housingData = await getHousingById(req.params.id);
-        console.log(housing)
 
         if (housingData.owner != req.user._id) {
             throw new Error('You cannot edit a housing that you have not created!')
@@ -95,8 +94,6 @@ router.get('/edit/:id', isUser(), async (req, res) => {
         console.log(err.message);
         res.redirect('/houding/details/' + req.params.id);
     }
-
-
 });
 
 router.post('/edit/:id', isUser(), async (req, res) => {
@@ -119,7 +116,7 @@ router.post('/edit/:id', isUser(), async (req, res) => {
         }
 
 
-        await editHousing(req.params.id, housingData);
+        await req.storage.editHousing(req.params.id, housingData);
         res.redirect('/housing/details/' + req.params.id);
 
     } catch (err) {
