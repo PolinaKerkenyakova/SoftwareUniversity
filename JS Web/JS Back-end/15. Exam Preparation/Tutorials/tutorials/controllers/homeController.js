@@ -1,11 +1,16 @@
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
     if (req.user) {
-        res.render('home/user', req.user);
+        const courses = await req.storage.getAllCourses();
+
+        res.render('home/user', { courses });
     } else {
-        res.render('home/guest')
+        const courses = await req.storage.getTopThreeCourses();
+
+        console.log(courses);
+        res.render('home/guest', { courses })
     }
 });
 
