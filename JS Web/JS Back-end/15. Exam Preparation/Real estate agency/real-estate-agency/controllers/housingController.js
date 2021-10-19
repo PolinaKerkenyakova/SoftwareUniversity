@@ -1,7 +1,6 @@
 const { isUser } = require('../middlewares/guards.js');
 const { body, validationResult } = require('express-validator');
 const { parseError } = require('../util/parsers.js');
-const { getHousingById, editHousingById } = require('../services/housing.js');
 
 
 const router = require('express').Router();
@@ -84,7 +83,7 @@ router.get('/delete/:id', isUser(), async (req, res) => {
 router.get('/edit/:id', isUser(), async (req, res) => {
 
     try {
-        const housingData = await getHousingById(req.params.id);
+        const housingData = await req.storage.getHousingById(req.params.id);
 
         if (housingData.owner != req.user._id) {
             throw new Error('You cannot edit a housing that you have not created!')

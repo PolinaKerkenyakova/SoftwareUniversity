@@ -53,6 +53,12 @@ async function addRentier(housingId, name) {
     housing.save();
 }
 
+async function getHousingByType(housingType) {
+    const housings = await Housing.find({}, { type: housingType }).lean();
+
+    return housings;
+}
+
 
 module.exports = {
     createHousing,
@@ -61,5 +67,7 @@ module.exports = {
     getLastThreeHousings,
     deleteHousingById,
     editHousing,
-    addRentier
+    addRentier,
+    getHousingByType
+
 }
