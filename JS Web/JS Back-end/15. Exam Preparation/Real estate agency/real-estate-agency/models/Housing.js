@@ -8,7 +8,7 @@ const schema = new Schema({
     homeImage: { type: String, required: [true, 'Image of the property is required'] },
     description: { type: String, required: [true, 'Description is required'], maxlength: [60, 'Description length can not exceed 60 chars'] },
     availablePieces: { type: Number, required: [true, 'Available pieces can be from 0 to 10'], min: 0, max: 10 },
-    homeRentedBy: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+    homeRentedBy: [{type: String}],
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     createdAt: {type: Date, default: Date.now}
 });

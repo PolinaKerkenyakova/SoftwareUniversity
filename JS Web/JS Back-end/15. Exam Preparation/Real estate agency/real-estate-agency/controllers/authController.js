@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { body, validationResult } = require('express-validator');
-const { isGuest } = require('../middlewares/guards.js');
+const { isGuest, isUser } = require('../middlewares/guards.js');
 
 router.get('/register', isGuest(), (req, res) => {
     res.render('user/register');
@@ -82,7 +82,7 @@ router.post('/login', isGuest(),
         }
     });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', isUser(), (req, res) => {
     req.auth.logout();
     res.redirect('/');
 });

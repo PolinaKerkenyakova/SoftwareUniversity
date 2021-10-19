@@ -61,9 +61,11 @@ router.post('/create', isUser(),
 router.get('/details/:id', async (req, res) => {
     const housing = await req.storage.getHousingById(req.params.id);
 
-    housing.homeRentedBy = housing.homeRentedBy.join(', ');
+    housing.rentiers = housing.homeRentedBy.join(', ');
 
     housing.isAuthor = req.user && req.user._id == housing.owner;
+    housing.areAvailablePieces = housing.availablePieces > 0;
+    housing.rentedByCurrUser = housing.homeRentedBy.find(r => r == req.user.name);
 
     res.render('housing/details', { housing });
 });
@@ -139,4 +141,29 @@ router.post('/edit/:id', isUser(), async (req, res) => {
 
     };
 });
+
+router.get('/rent/:id', isUser(), async (req, res) => {
+
+    try {
+        const housing = await req.storage.getHousingById(req.params.id);
+
+        if (housing.homeRentedBy.includes(req.user.name)) {
+            throw new Error('You have already rented this house!')
+        }
+
+        if (housing.availablePieces == 0) {
+            throw new Error('There is no housing available!')
+        }
+
+        await req.storage.addRentier(housing._id, req.user.name);
+
+        res.redirect('/housing/details/' + req.params.id);
+    } catch (err) {
+        console.log(err.mesasge);
+        res.redirect('/housing/details/' + req.params.id);
+
+    }
+});
+
+
 module.exports = router;

@@ -44,6 +44,15 @@ async function editHousing(id, housingData) {
     housing.save();
 }
 
+async function addRentier(housingId, name) {
+    const housing = await Housing.findById(housingId);
+
+    housing.homeRentedBy.push(name);
+    housing.availablePieces = Number(housing.availablePieces) - 1;
+
+    housing.save();
+}
+
 
 module.exports = {
     createHousing,
@@ -52,4 +61,5 @@ module.exports = {
     getLastThreeHousings,
     deleteHousingById,
     editHousing,
+    addRentier
 }
