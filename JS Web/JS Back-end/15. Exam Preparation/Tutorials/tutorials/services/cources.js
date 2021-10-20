@@ -36,6 +36,10 @@ async function enrollInACourse(courseId, userId) {
     return course;
 }
 
+async function deleteCourse(id) {
+    return Course.findByIdAndDelete(id);
+}
+
 
 
 module.exports = {
@@ -43,6 +47,6 @@ module.exports = {
     getCourseById,
     getAllCourses,
     getTopThreeCourses,
-    enrollInACourse
-
+    enrollInACourse,
+    deleteCourse
 }

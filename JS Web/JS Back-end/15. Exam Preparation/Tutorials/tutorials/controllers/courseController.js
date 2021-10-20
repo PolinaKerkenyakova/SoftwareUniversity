@@ -60,12 +60,12 @@ router.get('/details/:id', async (req, res) => {
     }
 });
 
-router.get('/enroll/:id', async (req, res) => {
+router.get('/enroll/:id', isUser(), async (req, res) => {
     try {
         const course = await req.storage.getCourseById(req.params.id);
 
         const user = course.usersEnrolled.find(u => u == req.user._id);
-      
+
         if (user) {
             throw new Error('You already enrolled for this course!')
         }
@@ -78,6 +78,23 @@ router.get('/enroll/:id', async (req, res) => {
         res.redirect('/course/details/' + req.params.id);
 
     }
+});
+
+router.get('/delete/:id', isUser(), async (req, res) => {
+    try {
+        const course = await req.storage.getCourseById(req.params.id);
+
+        if (course.author != req.user._id) {
+            throw new Error('You cannot delete a course that you have not created!')
+        }
+
+        await req.storage.deleteCourse(req.params.id);
+        res.redirect('/')
+    } catch (err) {
+        console.log(err);
+        res.redirect('/course/details/' + req.params.id)
+    }
+
 })
 
 

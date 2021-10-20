@@ -22,11 +22,11 @@
           {{#if course.isAuthor}}
             <a
               class="btn btn-danger"
-              href="/course/detele/{{course._id}}"
+              href="/course/delete/{{course._id}}"
             >Delete</a>
             <a
               class="btn btn-warning"
-              href="/couse/edit/{{course._id}}"
+              href="/course/edit/{{course._id}}"
             >Edit</a>
           {{else}}
             {{#if course.isUserEnrolled}}
