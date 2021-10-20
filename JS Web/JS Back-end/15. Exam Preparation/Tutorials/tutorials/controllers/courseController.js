@@ -48,11 +48,37 @@ router.post('/create', isUser(), async (req, res) => {
 
 router.get('/details/:id', async (req, res) => {
 
-    const course = await req.storage.getCouseById(req.params.id);
-    course.isUser = req.user;
-    course.isAuthor = req.user._id == course.author;
-    res.render('course/details', { course });
+    try {
+        const course = await req.storage.getCourseById(req.params.id);
+        course.isUser = req.user;
+        course.isAuthor = req.user._id == course.author;
+        course.isUserEnrolled = course.usersEnrolled.find(u => u == req.user._id);
+
+        res.render('course/details', { course });
+    } catch (err) {
+        console.log(err)
+    }
 });
+
+router.get('/enroll/:id', async (req, res) => {
+    try {
+        const course = await req.storage.getCourseById(req.params.id);
+
+        const user = course.usersEnrolled.find(u => u == req.user._id);
+      
+        if (user) {
+            throw new Error('You already enrolled for this course!')
+        }
+
+        await req.storage.enrollInACourse(req.params.id, req.user._id);
+        res.redirect('/course/details/' + req.params.id);
+
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/course/details/' + req.params.id);
+
+    }
+})
 
 
 module.exports = router;
