@@ -95,7 +95,63 @@ router.get('/delete/:id', isUser(), async (req, res) => {
         res.redirect('/course/details/' + req.params.id)
     }
 
-})
+});
+
+router.get('/edit/:id', isUser(), async (req, res) => {
+    try {
+        const course = await req.storage.getCourseById(req.params.id);
+
+        if (course.author != req.user._id) {
+            throw new Error('You cannot edit a course that you have not created!')
+        }
+
+        res.render('course/edit', { course })
+    } catch (err) {
+        console.log(err);
+        res.redirect('/course/edit/' + req.params.id,);
+
+    }
+});
+
+
+router.post('/edit/:id', isUser(), async (req, res) => {
+
+    const { errors } = validationResult(req);
+
+    try {
+
+        if (errors.length > 0) {
+            throw new Error(Object.values(errors).map(e => e.msg).join('\n'));
+        }
+
+        const course = {
+            title: req.body.title,
+            description: req.body.description,
+            imageUrl: req.body.imageUrl,
+            duration: req.body.duration
+        }
+
+        await req.storage.editCourse(req.params.id, course);
+
+        res.redirect('/course/details/' + req.params.id);
+
+    } catch (err) {
+        console.log(err.message);
+
+        const ctx = {
+            errors: parseError(err),
+            course: {
+                title: req.body.title,
+                description: req.body.description,
+                imageUrl: req.body.imageUrl,
+                duration: req.body.duration,
+                author: req.user._id
+            }
+        }
+
+        res.render('course/edit', ctx);
+    }
+});
 
 
 module.exports = router;

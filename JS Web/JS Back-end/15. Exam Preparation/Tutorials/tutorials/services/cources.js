@@ -40,6 +40,16 @@ async function deleteCourse(id) {
     return Course.findByIdAndDelete(id);
 }
 
+async function editCourse(courseId, courseData) {
+    const course = await Course.findById(courseId);
+    course.title = courseData.title;
+    course.description = courseData.description;
+    course.imageUrl = courseData.imageUrl;
+    course.duration = courseData.duration;
+
+    course.save();
+    return course;
+}
 
 
 module.exports = {
@@ -48,5 +58,6 @@ module.exports = {
     getAllCourses,
     getTopThreeCourses,
     enrollInACourse,
-    deleteCourse
+    deleteCourse,
+    editCourse
 }
