@@ -50,6 +50,12 @@ async function editCourse(courseId, courseData) {
     return await course.save();
 }
 
+async function searchCoursesByName(searchText) {
+
+    const courses = await Course.find({title: {$regex: searchText, $options: 'i'}}).lean();
+    return courses;
+}
+
 
 module.exports = {
     createCourse,
@@ -58,5 +64,6 @@ module.exports = {
     getTopThreeCourses,
     enrollInACourse,
     deleteCourse,
-    editCourse
+    editCourse,
+    searchCoursesByName
 }
