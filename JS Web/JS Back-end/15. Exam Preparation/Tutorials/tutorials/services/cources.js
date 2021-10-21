@@ -47,8 +47,7 @@ async function editCourse(courseId, courseData) {
     course.imageUrl = courseData.imageUrl;
     course.duration = courseData.duration;
 
-    course.save();
-    return course;
+    return await course.save();
 }
 
 

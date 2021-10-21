@@ -10,13 +10,8 @@ router.get('/create', (req, res) => {
 
 router.post('/create', isUser(), async (req, res) => {
 
-    const { errors } = validationResult(req);
-
     try {
-        if (errors.length > 0) {
-            throw new Error(Object.values(errors).map(e => e.msg).join('\n'));
-        }
-
+       
         const courseData = {
             title: req.body.title,
             description: req.body.description,
@@ -116,22 +111,23 @@ router.get('/edit/:id', isUser(), async (req, res) => {
 
 router.post('/edit/:id', isUser(), async (req, res) => {
 
-    const { errors } = validationResult(req);
 
     try {
 
-        if (errors.length > 0) {
-            throw new Error(Object.values(errors).map(e => e.msg).join('\n'));
+        const course = await req.storage.getCourseById(req.params.id);
+
+        if (course.author != req.user._id) {
+            throw new Error('You cannot edit a course that you have not created!')
         }
 
-        const course = {
+        const courseData = {
             title: req.body.title,
             description: req.body.description,
             imageUrl: req.body.imageUrl,
             duration: req.body.duration
         }
 
-        await req.storage.editCourse(req.params.id, course);
+        await req.storage.editCourse(req.params.id, courseData);
 
         res.redirect('/course/details/' + req.params.id);
 
@@ -141,11 +137,11 @@ router.post('/edit/:id', isUser(), async (req, res) => {
         const ctx = {
             errors: parseError(err),
             course: {
+                id: req.body._id,
                 title: req.body.title,
                 description: req.body.description,
                 imageUrl: req.body.imageUrl,
                 duration: req.body.duration,
-                author: req.user._id
             }
         }
 
