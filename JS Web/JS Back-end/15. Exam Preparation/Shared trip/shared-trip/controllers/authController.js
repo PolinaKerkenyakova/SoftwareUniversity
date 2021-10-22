@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { body, validationResult } = require('express-validator');
-const { isGuest } = require('../middlewares/guards.js');
+const { isGuest, isUser } = require('../middlewares/guards.js');
+const { getUserById } = require('../services/user.js')
 
 router.get('/register', isGuest(), (req, res) => {
     res.render('user/register');
@@ -8,7 +9,14 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
     isGuest(),
-    // body('username').isLength({ min: 2 }), //TODO change according to the requirements
+    body('email').matches(/[a-z]+@[a-z]+.[a-z]+/).withMessage('The email should be in the following format - "username@domain.bg'),
+    body('password').isLength({ min: 4 }).withMessage('Password length should be at least 4 chars long'),
+    body('rePass').custom((value, { req }) => {
+        if (value != req.body.password) {
+            throw new Error('Passwords don\'t match');
+        }
+        return true;
+    }),
     async (req, res) => {
 
         const { errors } = validationResult(req);
@@ -19,16 +27,17 @@ router.post('/register',
                 // TODO improve error messages
             }
 
-            await req.auth.register(req.body.username, req.body.password);
+            await req.auth.register(req.body.email, req.body.password, req.body.gender);
 
             res.redirect('/');
-            // TODO change redirect location
+
         } catch (err) {
             console.log(err);
             const ctx = {
                 errors: err.message.split('\n'),
                 userData: {
-                    username: req.body.username,
+                    email: req.body.email,
+                    gender: req.body.gender
                 }
             }
             res.render('user/register', ctx);
@@ -41,36 +50,49 @@ router.get('/login', isGuest(), (req, res) => {
     res.render('user/login');
 });
 
-router.post('/login', isGuest(), async (req, res) => {
-    try {
+router.post('/login', isGuest(),
+    body('email').matches(/[a-z]+@[a-z]+.[a-z]+/).withMessage('The email should be in the following format - "username@domain.bg'),
+    body('password').isLength({ min: 4 }).withMessage('Password length should be at least 4 chars long'),
+    async (req, res) => {
+        try {
 
-        await req.auth.login(req.body.username, req.body.password);
-        res.redirect('/');
+            await req.auth.login(req.body.email, req.body.password);
+            res.redirect('/');
 
-    } catch (err) {
+        } catch (err) {
 
-        console.log(err.message);
+            console.log(err.message);
 
-        let errors = [err.message];
+            let errors = [err.message];
 
-        if (err.type == 'credential') {
-            errors = ['Incorrect username or password'];
-        }
-
-        const ctx = {
-            errors,
-            userData: {
-                username: req.body.username,
+            if (err.type == 'credential') {
+                errors = ['Incorrect username or password'];
             }
-        };
 
-        res.render('user/login', ctx);
-    }
-});
+            const ctx = {
+                errors,
+                userData: {
+                    email: req.body.email,
+                    gender: req.body.gender
+                }
+            };
 
-router.get('/logout', (req, res) => {
+            res.render('user/login', ctx);
+        }
+    });
+
+router.get('/logout', isUser(), (req, res) => {
     req.auth.logout();
     res.redirect('/');
+});
+
+router.get('/profile', isUser(), async (req, res) => {
+
+    const user = await getUserById(req.user._id);
+    const trips = await req.storage.getUserTrips(user.tripsHistory);
+    user.trips = trips;
+
+    res.render('user/profile.hbs', { user });
 });
 
 module.exports = router;
