@@ -8,7 +8,17 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
     isGuest(),
-    // body('username').isLength({ min: 2 }), //TODO change according to the requirements
+    // body('username').isLength({ min: 5 }).withMessage('Username should be at least 5 chars long')
+    // .isAlphanumeric().withMessage('Username should contains only english letters and digits!'),
+    // body('password').isLength({ min: 5 }).withMessage('Password should be at least 5 chars long')
+    // .isAlphanumeric().withMessage('Password should contains only english letters and digits!'),
+     //TODO change according to the requirements
+    body('rePass').custom((value, { req }) => {
+        if (value != req.body.password) {
+            throw new Error('Passwords don\'t match')
+        }
+        return true;
+    }),
     async (req, res) => {
 
         const { errors } = validationResult(req);
