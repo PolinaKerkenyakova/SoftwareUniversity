@@ -1,0 +1,6 @@
+{
+  "posts": [
+    { "id": 1, "title": "Json", "author": "Json" },
+    { "id": 2, "title": "Server", "author": "Server" }
+  ]
+}
