@@ -1,0 +1,30 @@
+.form-label {
+    display: block;
+}
+
+.todo-input {
+    border: 1px solid firebrick;
+    color: firebrick;
+    border-radius: 300px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    width: 60%;
+    margin-right: 20px;
+}
+
+.todo-input:focus{
+    outline: 1.3px solid firebrick;
+}
+
+.todo-input::placeholder {
+    color: bisque;
+}
+
+.add-button {
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 300px;
+    padding: 10px 25px;
+    margin-left: auto;
+    color: firebrick;
+}
