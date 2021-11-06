@@ -1,15 +1,18 @@
 import ExpenseItem from './ExpenseItem';
-import Card from '../UI/Card';
 
-import './ExpenseList.css';
+import './ExpensesList.css';
 
+const ExpensesList = (props) => {
 
-function ExpensesList(props) {
-  return (
-    <Card className="expenses">
-        {props.expenses.map(x => <ExpenseItem key={x.id} date={x.date} title={x.title} amount={x.amount} />)}
-    </Card>
-  );
+    if (props.items.length === 0) {
+        return <h2 className="expenses-list__fallback">No found items!</h2>
+    }
+    return (
+
+        <ul className="expenses-list">
+            {props.items.map(x => <ExpenseItem key={x.id} date={x.date} title={x.title} amount={x.amount} />)}
+        </ul>
+    )
 }
 
 export default ExpensesList;
