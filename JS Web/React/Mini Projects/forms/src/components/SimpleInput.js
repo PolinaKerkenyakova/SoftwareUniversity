@@ -63,7 +63,7 @@ const SimpleInput = (props) => {
       </div>
       <div className={emailFormClasses}>
         <label htmlFor='name'>Your Email</label>
-        <input type='text' id='name' onChange={emailEneteredHandler} onBlur={emailFirldTouchedHandler} />
+        <input type='text' id='name' onChange={emailEneteredHandler} onBlur={emailFirldTouchedHandler} value={enteredEmail}/>
         {emailInputIsInvalid && <p className='error-text'>Email must contain @.</p>}
       </div>
       <div className="form-actions">
